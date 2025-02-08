@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer: React.FC = () => {
     return (
         <footer>
@@ -13,14 +15,20 @@ const Footer: React.FC = () => {
                             </a>
                         </li>
                         <li>
-                            <a
+                            <Link
+                                to="/politica-privacidade"
+                                className="hover:underline me-4 md:me-6"
+                            >
+                                Política de Privacidade
+                            </Link>
+                            {/* <a
                                 href="https://docs.google.com/document/d/1PYYkZTznMVp6ELcrGOrMwyHwiDBzx3n-2WAQwB9uaxg"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="hover:underline me-4 md:me-6"
                             >
                                 Política de Privacidade
-                            </a>
+                            </a> */}
                         </li>
                         <li>
                             <a

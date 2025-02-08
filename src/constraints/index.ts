@@ -27,4 +27,10 @@ export const pathConstants: RoutesType = {
         newTab: false,
         navbar: false,
     },
+    politicaprivacidade: {
+        path: "/politica-privacidade",
+        text: "Politica de Privacidade",
+        newTab: false,
+        navbar: false,
+    },
 };
