@@ -1,4 +1,7 @@
+import InputField from "@/components/inputs/inputField";
+import { signup } from "@/services/authService";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Registrar = () => {
     const [formData, setFormData] = useState({
@@ -11,14 +14,21 @@ const Registrar = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
         });
         setError("");
+    };
+
+    const validateEmail = (email: string): boolean => {
+        // Regex para validação de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     };
 
     const validateForm = () => {
@@ -29,6 +39,11 @@ const Registrar = () => {
             !formData.password
         ) {
             setError("Todos os campos são obrigatórios.");
+            return false;
+        }
+
+        if (!validateEmail(formData.email)) {
+            setError("Por favor, insira um email válido.");
             return false;
         }
 
@@ -55,7 +70,7 @@ const Registrar = () => {
         return true;
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (!validateForm()) {
@@ -66,33 +81,17 @@ const Registrar = () => {
         setError("");
 
         try {
-            const apiUrl =
-                import.meta.env.VITE_API_URL || "http://localhost:8000";
-
-            const response = await fetch(`${apiUrl}/auth/signup`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    first_name: formData.firstName,
-                    last_name: formData.lastName,
-                    email: formData.email,
-                    password: formData.password,
-                }),
+            const tokens = await signup({
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                email: formData.email,
+                password: formData.password,
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.detail || "Erro ao registrar usuário.");
-            }
-
+            localStorage.setItem("access_token", tokens.access_token);
+            localStorage.setItem("refresh_token", tokens.refresh_token);
             setSuccess(true);
-
-            // Armazena o token recebido
-            localStorage.setItem("accessToken", data.access_token);
-            localStorage.setItem("refreshToken", data.refresh_token);
+            navigate("/");
         } catch (err: any) {
             setError(err.message || "Ocorreu um erro ao fazer o registro.");
         } finally {
@@ -111,7 +110,7 @@ const Registrar = () => {
                 </p>
 
                 {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <div className="bg-red-100 border border-red-400 text-primary px-4 py-3 rounded mb-4">
                         {error}
                     </div>
                 )}
@@ -123,95 +122,55 @@ const Registrar = () => {
                 )}
 
                 <div className="flex flex-col gap-4">
-                    <div>
-                        <label
-                            htmlFor="firstName"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Primeiro Nome
-                        </label>
-                        <input
-                            id="firstName"
-                            name="firstName"
-                            type="text"
-                            placeholder="Seu primeiro nome"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
+                    <InputField
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        label="Primeiro Nome"
+                        placeholder="Seu primeiro nome"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                    />
 
-                    <div>
-                        <label
-                            htmlFor="lastName"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Sobrenome
-                        </label>
-                        <input
-                            id="lastName"
-                            name="lastName"
-                            type="text"
-                            placeholder="Seu sobrenome"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
+                    <InputField
+                        id="lastName"
+                        name="lastName"
+                        type="text"
+                        label="Sobrenome"
+                        placeholder="Seu sobrenome"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
 
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder="Exemplo@gmail.com"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
+                    <InputField
+                        id="email"
+                        name="email"
+                        type="email"
+                        label="Email"
+                        placeholder="Exemplo@gmail.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
 
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Senha
-                        </label>
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="Sua senha"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
+                    <InputField
+                        id="password"
+                        name="password"
+                        type="password"
+                        label="Senha"
+                        placeholder="Sua senha"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
 
-                    <div>
-                        <label
-                            htmlFor="confirmPassword"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Confirme sua Senha
-                        </label>
-                        <input
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="Confirme sua senha"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
+                    <InputField
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        label="Confirme sua Senha"
+                        placeholder="Confirme sua senha"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                    />
 
                     <button
                         onClick={handleSubmit}
@@ -223,12 +182,12 @@ const Registrar = () => {
 
                     <div className="text-center text-sm">
                         Já tem uma conta?{" "}
-                        <a
-                            href="/login"
+                        <Link
+                            to="/entrar"
                             className="text-primary hover:text-red-800 font-medium"
                         >
                             Entrar
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
