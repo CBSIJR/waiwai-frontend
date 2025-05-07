@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
     const defaultTheme =
-        useReadFromLocalStorage<EnumTheme>("theme") ?? EnumTheme.LIGHT;
+        useReadFromLocalStorage<EnumTheme>("theme") ?? EnumTheme.DARK;
 
     const [theme, setTheme] = useLocalStorage<EnumTheme>("theme", defaultTheme);
 
@@ -20,10 +20,6 @@ function App() {
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
             <Routes />
-            {/*
-            <AuthProvider>
-            </AuthProvider>
-            */}
         </ThemeContext.Provider>
     );
 }
