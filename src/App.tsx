@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
     const defaultTheme =
-        useReadFromLocalStorage<EnumTheme>("theme") ?? EnumTheme.DARK;
+        useReadFromLocalStorage<EnumTheme>("theme") ?? EnumTheme.LIGHT;
 
     const [theme, setTheme] = useLocalStorage<EnumTheme>("theme", defaultTheme);
 
