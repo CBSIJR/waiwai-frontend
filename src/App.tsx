@@ -4,7 +4,6 @@ import { useReadFromLocalStorage, useLocalStorage } from "@/hooks";
 import { EnumTheme } from "./types/themeTypes";
 import Routes from "@/routes";
 import "./App.css";
-import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
     const defaultTheme =
@@ -20,9 +19,7 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-            <AuthProvider>
             <Routes />
-            </AuthProvider>
         </ThemeContext.Provider>
     );
 }

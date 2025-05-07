@@ -14,6 +14,7 @@ const Registrar = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [isValidPassword, setIsValidPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +68,11 @@ const Registrar = () => {
             return false;
         }
 
+        if (!isValidPassword) {
+            setError("Digite uma senha válida.");
+            return false;
+        }
+
         return true;
     };
 
@@ -93,10 +99,14 @@ const Registrar = () => {
             setSuccess(true);
             navigate("/");
         } catch (err: any) {
-            setError(err.message || "Ocorreu um erro ao fazer o registro.");
+            setError(err.response.data.detail[0].msg || "Ocorreu um erro ao fazer o registro.");
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleValidityChange = (isValid: boolean) => {
+        setIsValidPassword(isValid);
     };
 
     return (
@@ -160,6 +170,7 @@ const Registrar = () => {
                         placeholder="Sua senha"
                         value={formData.password}
                         onChange={handleChange}
+                        onValidityChange={handleValidityChange}
                     />
 
                     <InputField
