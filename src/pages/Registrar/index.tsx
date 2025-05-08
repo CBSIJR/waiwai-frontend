@@ -150,8 +150,8 @@ const Registrar = () => {
                         id="firstName"
                         name="firstName"
                         type="text"
-                        label="Primeiro Nome"
-                        placeholder="Seu primeiro nome"
+                        label="Primeiro nome"
+                        placeholder="João"
                         value={formData.firstName}
                         onChange={handleChange}
                     />
@@ -161,7 +161,7 @@ const Registrar = () => {
                         name="lastName"
                         type="text"
                         label="Sobrenome"
-                        placeholder="Seu sobrenome"
+                        placeholder="Silva"
                         value={formData.lastName}
                         onChange={handleChange}
                     />
@@ -171,7 +171,7 @@ const Registrar = () => {
                         name="email"
                         type="email"
                         label="Email"
-                        placeholder="Exemplo@gmail.com"
+                        placeholder="exemplo@email.com"
                         value={formData.email}
                         onChange={handleChange}
                     />
@@ -181,7 +181,7 @@ const Registrar = () => {
                         name="password"
                         type="password"
                         label="Senha"
-                        placeholder="Sua senha"
+                        placeholder="Digite sua senha"
                         value={formData.password}
                         onChange={handleChange}
                         onValidityChange={handleValidityChange}
@@ -191,7 +191,7 @@ const Registrar = () => {
                         id="confirmPassword"
                         name="confirmPassword"
                         type="password"
-                        label="Confirme sua Senha"
+                        label="Confirme sua senha"
                         placeholder="Confirme sua senha"
                         value={formData.confirmPassword}
                         onChange={handleChange}
