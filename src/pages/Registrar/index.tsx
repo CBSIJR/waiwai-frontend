@@ -99,15 +99,21 @@ const Registrar = () => {
             setSuccess(true);
             navigate("/");
         } catch (err: any) {
-            const detail = err.response?.data?.detail;
+            if (err.response.status === 422) {
+                const detail = err.response?.data?.detail;
+                const allMessages = Array.isArray(detail)
+                    ? detail.map((o) => o.msg).join(" ")
+                    : typeof detail === "string"
+                      ? detail
+                      : "Ocorreu um erro ao fazer o registro.";
 
-            const allMessages = Array.isArray(detail)
-                ? detail.map((e: any) => `• ${e.msg}`).join("\n")
-                : typeof detail === "string"
-                  ? detail
-                  : "Ocorreu um erro ao fazer o registro.";
-
-            setError(allMessages);
+                setError(allMessages);
+            } else {
+                setError(
+                    err.response?.data?.detail ||
+                        "Ocorreu um erro ao fazer o registro."
+                );
+            }
         } finally {
             setLoading(false);
         }
