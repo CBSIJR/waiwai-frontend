@@ -24,6 +24,14 @@ export default defineConfig({
         },
     },
     server: {
+        proxy: {
+            "/api": {
+                target: "https://api.pawana.com.br",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        },
+
         watch: {
             usePolling: true,
         },

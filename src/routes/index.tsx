@@ -28,42 +28,6 @@ export default function Routes() {
         },
     ];
 
-    // const routesForNotAuthenticatedOnly = [
-    //     {
-    //         path: '/',
-    //         element: <> <h1>Home Page</h1><Link to='/login-auth'>Login</Link></>,
-    //     },
-    //     {
-    //         path: '/login',
-    //         element: <h1>Login</h1>,
-    //     },
-    //     {
-    //         path: '/login-auth',
-    //         element: <h1>Login Auth</h1>// <Login />,
-    //     },
-    // ];
-
-    // const routesForAuthenticatedOnly = [
-    //     {
-    //         path: '/',
-    //         element: <ProtectedRoute />,
-    //         children: [
-    //             {
-    //                 path: '/',
-    //                 element: <><h1 className="auth-path">User Home Page</h1><Link to='/logout'>Logout</Link></>,
-    //             },
-    //             {
-    //                 path: '/profile',
-    //                 element: <h1 className="auth-path">User Profile</h1>,
-    //             },
-    //             {
-    //                 path: '/logout',
-    //                 element: <h1>Logout</h1>//<Logout className="auth-path" />,
-    //             },
-    //         ],
-    //     },
-    // ];
-
     const router = createBrowserRouter([
         ...routesForPublic,
         // ...routesForNotAuthenticatedOnly

@@ -1,6 +1,5 @@
 import Topic from "@/components/Topic";
 import { CategoryType, MeaningType, WordType } from "@/types/apiResultTypes";
-import { Table, TableColumnsType } from "antd";
 import { Link } from "react-router-dom";
 
 type TableDicionarioProps = {
@@ -22,7 +21,7 @@ type ExpandedDataType = {
 };
 
 const TableDicionario: React.FC<TableDicionarioProps> = ({ dataSource }) => {
-    const dataTable: DataType[] = dataSource.map((item) => {
+    /* const dataTable: DataType[] = dataSource.map((item) => {
         return {
             key: item.id,
             id: item.id,
@@ -97,7 +96,9 @@ const TableDicionario: React.FC<TableDicionarioProps> = ({ dataSource }) => {
                 size="middle"
             />
         </Topic>
-    );
+    ); */
+
+    return null
 };
 
 export default TableDicionario;
