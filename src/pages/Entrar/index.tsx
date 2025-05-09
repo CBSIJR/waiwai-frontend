@@ -12,7 +12,7 @@ const Entrar = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
-    const { login } = useAuth();
+    const { injectToken } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ const Entrar = () => {
                 email: formData.email,
                 password: formData.password,
             });
-            login(tokens.access_token);
+            injectToken(tokens.access_token);
             navigate("/dicionario");
             setSuccess(true);
         } catch (err: any) {

@@ -1,4 +1,5 @@
 import Form from "@/components/form";
+import { useAuth } from "@/hooks/useAuth";
 import { signup } from "@/services/authService";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +16,8 @@ const Registrar = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
+    const { injectToken } = useAuth();
+
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,8 +97,7 @@ const Registrar = () => {
                 password: formData.password,
             });
 
-            localStorage.setItem("access_token", tokens.access_token);
-            localStorage.setItem("refresh_token", tokens.refresh_token);
+            injectToken(tokens.access_token);
             setSuccess(true);
             navigate("/dicionario");
         } catch (err: any) {
