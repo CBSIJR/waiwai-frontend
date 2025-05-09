@@ -19,4 +19,9 @@ declare global {
         refresh_token: string;
         token_type: string;
       }
+
+      export interface LoginPayload {
+        email: string;
+        password: string;
+      }
 }
