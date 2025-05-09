@@ -69,13 +69,13 @@ const Entrar = () => {
                     ? detail.map((o) => o.msg).join(" ")
                     : typeof detail === "string"
                       ? detail
-                      : "Ocorreu um erro ao fazer o registro.";
+                      : "Ocorreu um erro ao entrar.";
 
                 setError(allMessages);
             } else {
                 setError(
                     err.response?.data?.detail ||
-                        "Ocorreu um erro ao fazer o registro."
+                        "Ocorreu um erro ao entrar."
                 );
             }
         } finally {
@@ -113,7 +113,7 @@ const Entrar = () => {
             buttonLabel="Entrar"
             success={{
                 boolean: success,
-                message: "Cadastro realizado com sucesso!",
+                message: "Login realizado com sucesso!",
             }}
             topContent={
                 <>
