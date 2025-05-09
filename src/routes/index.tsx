@@ -4,7 +4,6 @@ import {
     Dicionario,
     Entrar,
     Inicio,
-    PoliticaPrivacidade,
     Registrar,
 } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -29,10 +28,6 @@ export default function Routes() {
                 {
                     path: pathConstants.registrar.path,
                     element: <Registrar />,
-                },
-                {
-                    path: pathConstants.politicaprivacidade.path,
-                    element: <PoliticaPrivacidade />,
                 },
             ],
         },
