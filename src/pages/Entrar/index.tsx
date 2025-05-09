@@ -1,4 +1,5 @@
 import Form from "@/components/form";
+import { signin } from "@/services/authService";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -52,13 +53,13 @@ const Entrar = () => {
         setError("");
 
         try {
-            /* const tokens = await signup({
+            const tokens = await signin({
                 email: formData.email,
                 password: formData.password,
-            }); */
+            });
 
-            /* localStorage.setItem("access_token", tokens.access_token);
-            localStorage.setItem("refresh_token", tokens.refresh_token); */
+            localStorage.setItem("access_token", tokens.access_token);
+            localStorage.setItem("refresh_token", tokens.refresh_token);
             setSuccess(true);
             navigate("/");
         } catch (err: any) {
