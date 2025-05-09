@@ -1,11 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
+// import AuthContext from "../contexts/AuthContext";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const AxiosClient = () => {
-    const authContext = useContext(AuthContext);
+    // const authContext = useContext(AuthContext);
 
     const AxiosInstance = axios.create({
         baseURL: baseURL,
@@ -15,11 +14,11 @@ const AxiosClient = () => {
         },
     });
 
-    AxiosInstance.interceptors.request.use((request) => {
-        if (!request.headers?.Authorization && authContext.data.accessToken)
-            request.headers.Authorization = `Bearer ${authContext.data.accessToken}`;
-        return request;
-    });
+    // AxiosInstance.interceptors.request.use((request) => {
+    //     if (!request.headers?.Authorization && authContext.data.accessToken)
+    //         request.headers.Authorization = `Bearer ${authContext.data.accessToken}`;
+    //     return request;
+    // });
 
     AxiosInstance.interceptors.response.use(
         (response: AxiosResponse) => response,
@@ -51,7 +50,7 @@ const AxiosClient = () => {
 
                 //     config.headers.Authorization = `Bearer ${result.data.accessToken}`;
                 // } catch (err) {
-                authContext.logout();
+                // authContext.logout();
                 // }
 
                 config.headers["NO_RETRY_HEADER"] = "true";

@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                 </div>
                 <hr className="my-6 md:mx-auto dark:text-gray-400 lg:my-8" />
                 <span className="block text-md text-gray-500 md:text-center dark:text-gray-400">
-                    © 2024{" "}
+                    © {new Date().getFullYear()}{" "}
                     <a
                         href="https://www.ufopa.edu.br/oriximina/"
                         target="_blank"

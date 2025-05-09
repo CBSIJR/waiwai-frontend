@@ -1,14 +1,17 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import ThemeToggler from "./ThemeToggler";
 import { pathConstants } from "@/constraints";
 // import { ThemeContext } from "@/contexts";
 import { RouteType } from "@/types";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header: React.FC = () => {
     // const { themeMode } = useContext(ThemeContext);
 
     // Navbar toggle
+    const { logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     const [navbarOpen, setNavbarOpen] = useState(false);
     const navbarToggleHandler = () => {
         setNavbarOpen(!navbarOpen);
@@ -48,29 +51,28 @@ const Header: React.FC = () => {
                         : "bg-transparent"
                 }`}
             >
-                <nav className="mx-auto max-w-[1200px] ">
-                    <div className="container">
-                        <div className="relative -mx-4 flex items-center justify-between">
-                            <div className="w-60 max-w-full px-4 xl:mr-12">
-                                <Link
-                                    to="/"
-                                    className={`header-logo block w-full ${
-                                        sticky ? "py-5 lg:py-2" : "py-6"
-                                    } `}
-                                >
-                                    <img
-                                        src="/logo/logo-bar-colored.png"
-                                        alt="logo"
-                                        className="w-auto dark:hidden h-[46px]"
-                                    />
-                                    <img
-                                        src="/logo/logo-bar-colored.png"
-                                        alt="logo"
-                                        className="hidden w-auto dark:block  h-[46px]"
-                                    />
-                                </Link>
-                            </div>
-
+                <div className="container">
+                    <div className="flex items-center justify-between">
+                        <div className="w-60 max-w-full px-4 xl:mr-12">
+                            <Link
+                                to="/"
+                                className={`header-logo block w-full ${
+                                    sticky ? "py-5 lg:py-2" : "py-6"
+                                } `}
+                            >
+                                <img
+                                    src="/logo/logo-bar-colored.png"
+                                    alt="logo"
+                                    className="w-auto dark:hidden h-[46px]"
+                                />
+                                <img
+                                    src="/logo/logo-bar-colored.png"
+                                    alt="logo"
+                                    className="hidden w-auto dark:block h-[46px]"
+                                />
+                            </Link>
+                        </div>
+                        {isAuthenticated && (
                             <div className="flex w-full items-center justify-between px-4">
                                 <button
                                     onClick={navbarToggleHandler}
@@ -170,35 +172,6 @@ const Header: React.FC = () => {
                                                                         </svg>
                                                                     </span>
                                                                 </p>
-                                                                {/* <div
-                                                                    className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
-                                                                        openIndex ===
-                                                                        index
-                                                                            ? "block"
-                                                                            : "hidden"
-                                                                    }`}
-                                                                >
-                                                                     {menuItem.submenu.map(
-                                                                (
-                                                                    submenuItem,
-                                                                    index
-                                                                ) => (
-                                                                    <Link
-                                                                        to={
-                                                                            submenuItem.path
-                                                                        }
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
-                                                                    >
-                                                                        {
-                                                                            submenuItem.title
-                                                                        }
-                                                                    </Link>
-                                                                )
-                                                            )} 
-                                                                </div>*/}
                                                             </>
                                                         )}
                                                     </li>
@@ -207,6 +180,18 @@ const Header: React.FC = () => {
                                     </ul>
                                 </nav>
                             </div>
+                        )}
+
+                        {isAuthenticated ? (
+                            <button
+                                className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-lg bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                                onClick={()=> {logout();
+                                    navigate("/entrar")
+                                }}
+                            >
+                                Sair
+                            </button>
+                        ) : (
                             <div className="flex items-center justify-end pr-16 lg:pr-0">
                                 <Link
                                     to="/entrar"
@@ -220,13 +205,10 @@ const Header: React.FC = () => {
                                 >
                                     Registrar
                                 </Link>
-                                {/* <div>
-                                    <ThemeToggler />
-                                </div> */}
                             </div>
-                        </div>
+                        )}
                     </div>
-                </nav>
+                </div>
             </header>
         </>
     );

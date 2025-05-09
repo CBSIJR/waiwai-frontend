@@ -1,28 +1,27 @@
-import Topic from "@/components/Topic";
-import { CategoryType, MeaningType, WordType } from "@/types/apiResultTypes";
-import { Table, TableColumnsType } from "antd";
-import { Link } from "react-router-dom";
+// import Topic from "@/components/Topic";
+import { WordType } from "@/types/apiResultTypes";
+// import { Link } from "react-router-dom";
 
 type TableDicionarioProps = {
     dataSource: WordType[];
 };
 
-type DataType = {
-    key: React.Key;
-    id: number;
-    word: string;
-    categories: CategoryType[];
-    meanings: MeaningType[];
-};
+// type DataType = {
+//     key: React.Key;
+//     id: number;
+//     word: string;
+//     categories: CategoryType[];
+//     meanings: MeaningType[];
+// };
 
-type ExpandedDataType = {
-    key: React.Key;
-    meaningPt: string;
-    meaningWw: string;
-};
+// type ExpandedDataType = {
+//     key: React.Key;
+//     meaningPt: string;
+//     meaningWw: string;
+// };
 
-const TableDicionario: React.FC<TableDicionarioProps> = ({ dataSource }) => {
-    const dataTable: DataType[] = dataSource.map((item) => {
+const TableDicionario: React.FC<TableDicionarioProps> = () => {
+    /* const dataTable: DataType[] = dataSource.map((item) => {
         return {
             key: item.id,
             id: item.id,
@@ -97,7 +96,9 @@ const TableDicionario: React.FC<TableDicionarioProps> = ({ dataSource }) => {
                 size="middle"
             />
         </Topic>
-    );
+    ); */
+
+    return null
 };
 
 export default TableDicionario;
