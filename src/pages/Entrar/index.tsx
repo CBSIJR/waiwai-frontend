@@ -1,4 +1,5 @@
 import Form from "@/components/form";
+import { useAuth } from "@/hooks/useAuth";
 import { signin } from "@/services/authService";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ const Entrar = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,11 +59,9 @@ const Entrar = () => {
                 email: formData.email,
                 password: formData.password,
             });
-
-            localStorage.setItem("access_token", tokens.access_token);
-            localStorage.setItem("refresh_token", tokens.refresh_token);
+            login(tokens.access_token);
+            navigate("/dicionario");
             setSuccess(true);
-            navigate("/");
         } catch (err: any) {
             if (err.response.status === 422) {
                 const detail = err.response?.data?.detail;

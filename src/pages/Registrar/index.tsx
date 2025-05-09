@@ -97,7 +97,7 @@ const Registrar = () => {
             localStorage.setItem("access_token", tokens.access_token);
             localStorage.setItem("refresh_token", tokens.refresh_token);
             setSuccess(true);
-            navigate("/");
+            navigate("/dicionario");
         } catch (err: any) {
             if (err.response.status === 422) {
                 const detail = err.response?.data?.detail;

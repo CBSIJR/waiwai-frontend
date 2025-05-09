@@ -4,6 +4,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   accessToken: string | null;
   logout: () => void;
+  login: (token: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,14 +22,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setAccessToken(token);
     }
   }, []);
-
-  console.log(!!accessToken);
-
-
+  
   const logout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     setAccessToken(null);
+  };
+
+  const login = (token: string) => {
+    localStorage.setItem("access_token", token);
+    setAccessToken(token);
   };
 
   return (
@@ -36,6 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         isAuthenticated: !!accessToken,
         accessToken,
+        login,
         logout,
       }}
     >

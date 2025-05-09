@@ -1,5 +1,5 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import ThemeToggler from "./ThemeToggler";
 import { pathConstants } from "@/constraints";
 // import { ThemeContext } from "@/contexts";
@@ -11,6 +11,7 @@ const Header: React.FC = () => {
 
     // Navbar toggle
     const { logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     const [navbarOpen, setNavbarOpen] = useState(false);
     const navbarToggleHandler = () => {
         setNavbarOpen(!navbarOpen);
@@ -40,8 +41,6 @@ const Header: React.FC = () => {
     };
 
     let location = useLocation();
-
-    console.log(isAuthenticated);
 
     return (
         <>
@@ -186,7 +185,9 @@ const Header: React.FC = () => {
                         {isAuthenticated ? (
                             <button
                                 className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-lg bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-                                onClick={logout}
+                                onClick={()=> {logout();
+                                    navigate("/entrar")
+                                }}
                             >
                                 Sair
                             </button>

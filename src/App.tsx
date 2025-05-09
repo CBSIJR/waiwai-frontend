@@ -24,11 +24,11 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-            <AuthProvider>
-                <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
                     <Routes />
-                </QueryClientProvider>
-            </AuthProvider>
+                </AuthProvider>
+            </QueryClientProvider>
         </ThemeContext.Provider>
     );
 }
