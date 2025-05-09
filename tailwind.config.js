@@ -42,6 +42,7 @@ export default {
                 stroke: "#E3E8EF",
                 "stroke-dark": "#353943",
                 "bg-color-dark": "#171C28",
+                secondary: "#555555",
             },
 
             boxShadow: {
@@ -68,7 +69,11 @@ export default {
             pattern:
                 /(bg|text|ring)-(yellow|blue|purple|red|green|pink|indigo)-(50|700|800|600\/10|600\/20|700\/10)/,
         },
+        {
+            pattern: /table-./,
+        },
     ],
+
     plugins: [require("@tailwindcss/typography")],
     content: [
         "./index.html",
