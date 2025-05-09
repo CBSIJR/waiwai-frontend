@@ -5,6 +5,7 @@ import Routes from "@/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { EnumTheme } from "./types/themeTypes";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -23,11 +24,11 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-
-            <QueryClientProvider client={queryClient}>
-                <Routes />
-            </QueryClientProvider>
- 
+            <AuthProvider>
+                <QueryClientProvider client={queryClient}>
+                    <Routes />
+                </QueryClientProvider>
+            </AuthProvider>
         </ThemeContext.Provider>
     );
 }
