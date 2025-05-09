@@ -1,9 +1,14 @@
 // import AuthProvider from './provider/authProvider';
 import { ThemeContext } from "@/contexts";
-import { useReadFromLocalStorage, useLocalStorage } from "@/hooks";
-import { EnumTheme } from "./types/themeTypes";
+import { useLocalStorage, useReadFromLocalStorage } from "@/hooks";
 import Routes from "@/routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
+import { EnumTheme } from "./types/themeTypes";
+import { AuthProvider } from "./contexts/AuthContext";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
     const defaultTheme =
@@ -19,11 +24,11 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-            <Routes />
-            {/*
-            <AuthProvider>
-            </AuthProvider>
-            */}
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <Routes />
+                </AuthProvider>
+            </QueryClientProvider>
         </ThemeContext.Provider>
     );
 }
