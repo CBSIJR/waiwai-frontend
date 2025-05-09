@@ -1,4 +1,4 @@
-import InputField from "@/components/inputs/inputField";
+import Form from "@/components/form";
 import { signup } from "@/services/authService";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -123,100 +123,88 @@ const Registrar = () => {
         setIsValidPassword(isValid);
     };
 
+    const fields = [
+        {
+            id: "firstName",
+            name: "firstName",
+            type: "text",
+            label: "Primeiro nome",
+            placeholder: "João",
+            value: formData.firstName,
+            onChange: handleChange,
+        },
+        {
+            id: "lastName",
+            name: "lastName",
+            type: "text",
+            label: "Sobrenome",
+            placeholder: "Silva",
+            value: formData.lastName,
+            onChange: handleChange,
+        },
+        {
+            id: "email",
+            name: "email",
+            type: "email",
+            label: "Email",
+            placeholder: "exemplo@email.com",
+            value: formData.email,
+            onChange: handleChange,
+        },
+        {
+            id: "password",
+            name: "password",
+            type: "password",
+            label: "Senha",
+            placeholder: "Digite sua senha",
+            value: formData.password,
+            onChange: handleChange,
+            onValidityChange: handleValidityChange,
+        },
+        {
+            id: "confirmPassword",
+            name: "confirmPassword",
+            type: "password",
+            label: "Confirme sua senha",
+            placeholder: "Confirme sua senha",
+            value: formData.confirmPassword,
+            onChange: handleChange,
+        },
+    ];
+
     return (
-        <div className="flex items-center justify-center min-h-screen mt-8">
-            <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
-                <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-                    Crie sua conta
-                </h1>
-                <p className="text-sm text-center text-gray-500 mb-6">
-                    Cadastre-se com seu e-mail
-                </p>
-
-                {error && (
-                    <div className="bg-red-100 border border-red-400 text-primary px-4 py-3 rounded mb-4">
-                        {error}
-                    </div>
-                )}
-
-                {success && (
-                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        Cadastro realizado com sucesso!
-                    </div>
-                )}
-
-                <div className="flex flex-col gap-4">
-                    <InputField
-                        id="firstName"
-                        name="firstName"
-                        type="text"
-                        label="Primeiro nome"
-                        placeholder="João"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                    />
-
-                    <InputField
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        label="Sobrenome"
-                        placeholder="Silva"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                    />
-
-                    <InputField
-                        id="email"
-                        name="email"
-                        type="email"
-                        label="Email"
-                        placeholder="exemplo@email.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-
-                    <InputField
-                        id="password"
-                        name="password"
-                        type="password"
-                        label="Senha"
-                        placeholder="Digite sua senha"
-                        value={formData.password}
-                        onChange={handleChange}
-                        onValidityChange={handleValidityChange}
-                    />
-
-                    <InputField
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type="password"
-                        label="Confirme sua senha"
-                        placeholder="Confirme sua senha"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                    />
-
-                    <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className={`w-full py-2 px-4 mt-2 ${loading ? "bg-gray-400" : "bg-primary hover:bg-red-800"} text-white font-medium rounded-md transition duration-200`}
+        <Form
+            fields={fields}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            buttonLabel="Registrar"
+            error={error}
+            success={{
+                boolean: success,
+                message: "Cadastro realizado com sucesso!",
+            }}
+            topContent={
+                <>
+                    <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
+                        Crie sua conta
+                    </h1>
+                    <p className="text-sm text-center text-gray-500 mb-6">
+                        Cadastre-se com seu e-mail
+                    </p>
+                </>
+            }
+            bottomContent={
+                <div className="justify-center text-center text-sm flex gap-1">
+                    Já tem uma conta?
+                    <Link
+                        to="/entrar"
+                        className="text-primary hover:text-red-800 font-medium"
                     >
-                        {loading ? "Processando..." : "Registrar"}
-                    </button>
-
-                    <div className="text-center text-sm">
-                        Já tem uma conta?{" "}
-                        <Link
-                            to="/entrar"
-                            className="text-primary hover:text-red-800 font-medium"
-                        >
-                            Entrar
-                        </Link>
-                    </div>
+                        Entrar
+                    </Link>
                 </div>
-            </div>
-        </div>
+            }
+        />
     );
 };
 

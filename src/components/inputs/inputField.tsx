@@ -75,19 +75,6 @@ const InputField: React.FC<InputFieldProps> = ({
         setShowPassword(!showPassword);
     };
 
-    const calculateProgress = () => {
-        const criteriaCount =
-            Object.values(passwordStrength).filter(Boolean).length;
-        return (criteriaCount / requirements.length) * 100;
-    };
-
-    const getProgressColor = () => {
-        const progress = calculateProgress();
-        if (progress < 1) return "bg-primary";
-        if (progress < 67) return "bg-yellow-500";
-        return "bg-green-500";
-    };
-
     const requirements = [
         {
             isMet: passwordStrength.hasLowerCase,
@@ -131,6 +118,7 @@ const InputField: React.FC<InputFieldProps> = ({
         }
     }, [value, type, onValidityChange]);
 
+   
     return (
         <div>
             <label
