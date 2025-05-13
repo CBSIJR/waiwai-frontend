@@ -5,3 +5,8 @@ export const getWords = async (page: number = 1, pageSize: number = 10) => {
     const response = await axios.get(url);
     return response.data;
 };
+
+export const getWordID = async (id: string) => {
+    const res = await axios.get<WordProps>(`/api/words/${id}`);
+    return res.data;
+};

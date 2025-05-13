@@ -1,7 +1,12 @@
 import { useWords } from "@/hooks/dicionario";
+import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Dicionario = () => {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");
@@ -54,9 +59,9 @@ const Dicionario = () => {
 
     const columns = [
         { header: "Palavra" },
+        { header: "Significados" },
         { header: "Fonética" },
         { header: "Categoria" },
-        { header: "Significados" },
     ];
 
     if (isError)
@@ -67,9 +72,9 @@ const Dicionario = () => {
         );
 
     return (
-        <div className="flex-1 mt-24 mx-20 items-center">
+        <div className="flex-1 mt-32 mx-20 items-center">
             <div>
-                <div className="flex justify-center">
+                <div className="flex justify-center gap-2">
                     <form
                         onSubmit={handleSearch}
                         className="flex w-full max-w-md"
@@ -88,6 +93,11 @@ const Dicionario = () => {
                             Buscar
                         </button>
                     </form>
+                    {isAuthenticated && (
+                        <button className="px-4 py-2 bg-primary text-white rounded-lg">
+                            Adicionar palavra
+                        </button>
+                    )}
                 </div>
 
                 {searchTerm && (
@@ -125,15 +135,15 @@ const Dicionario = () => {
                     <tbody className="bg-white divide-y divide-gray-200">
                         {words.length > 0 ? (
                             words.map((word) => (
-                                <tr key={word.id} className="hover:bg-gray-50">
+                                <tr
+                                    key={word.id}
+                                    onClick={() =>
+                                        navigate(`/dicionario/${word.id}`)
+                                    }
+                                    className="hover:bg-gray-50"
+                                >
                                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                                         {word.word}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {word.phonetic || "-"}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {word.categories[0].category}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-500">
                                         <ul className="list-disc list-inside">
@@ -143,10 +153,16 @@ const Dicionario = () => {
                                                     className="mb-1"
                                                 >
                                                     {m.meaning_pt} (
-                                                    {m.meaning_st})
+                                                    {m.meaning_ww})
                                                 </li>
                                             ))}
                                         </ul>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-500">
+                                        {word.phonemic || "-"}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-500">
+                                        {word.categories[0].category}
                                     </td>
                                 </tr>
                             ))
@@ -156,7 +172,9 @@ const Dicionario = () => {
                                     colSpan={4}
                                     className="px-6 py-4 text-center text-sm text-gray-500"
                                 >
-                                    Carregando...
+                                    <div className="flex items-center justify-center h-screen">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                                    </div>
                                 </td>
                             </tr>
                         ) : (

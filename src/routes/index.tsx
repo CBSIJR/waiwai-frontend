@@ -5,6 +5,7 @@ import {
     Entrar,
     Inicio,
     Registrar,
+    PalavraDetalhe,
 } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -22,6 +23,10 @@ export default function Routes() {
                     element: <Dicionario />,
                 },
                 {
+                    path: `${pathConstants.dicionario.path}/:id`,
+                    element: <PalavraDetalhe />,
+                },
+                {
                     path: pathConstants.entrar.path,
                     element: <Entrar />,
                 },
@@ -33,12 +38,7 @@ export default function Routes() {
         },
     ];
 
-    const router = createBrowserRouter([
-        ...routesForPublic,
-        // ...routesForNotAuthenticatedOnly
-        // ...(!token ? routesForNotAuthenticatedOnly : []),
-        // ...routesForAuthenticatedOnly
-    ]);
+    const router = createBrowserRouter(routesForPublic);
 
     return <RouterProvider router={router} />;
 }
