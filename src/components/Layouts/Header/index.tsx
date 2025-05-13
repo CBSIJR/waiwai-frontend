@@ -72,7 +72,6 @@ const Header: React.FC = () => {
                                 />
                             </Link>
                         </div>
-                        {isAuthenticated && (
                             <div className="flex w-full items-center justify-between px-4">
                                 <button
                                     onClick={navbarToggleHandler}
@@ -180,7 +179,6 @@ const Header: React.FC = () => {
                                     </ul>
                                 </nav>
                             </div>
-                        )}
 
                         {isAuthenticated ? (
                             <button

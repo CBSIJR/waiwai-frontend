@@ -1,0 +1,7 @@
+import axios from "axios";
+
+export const getWords = async (page: number = 1, pageSize: number = 10) => {
+    let url = `/api/words/?page=${page}&page_size=${pageSize}`;
+    const response = await axios.get(url);
+    return response.data;
+};
