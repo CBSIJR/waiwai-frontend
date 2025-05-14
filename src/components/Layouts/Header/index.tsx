@@ -1,24 +1,26 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import ThemeToggler from "./ThemeToggler";
 import { pathConstants } from "@/constraints";
-// import { ThemeContext } from "@/contexts";
 import { RouteType } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Header: React.FC = () => {
-    // const { themeMode } = useContext(ThemeContext);
-
-    // Navbar toggle
     const { logout, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [navbarOpen, setNavbarOpen] = useState(false);
+
+    const [sticky, setSticky] = useState(false);
+
+    const [openIndex, setOpenIndex] = useState(-1);
+
     const navbarToggleHandler = () => {
         setNavbarOpen(!navbarOpen);
     };
 
-    // Sticky Navbar
-    const [sticky, setSticky] = useState(false);
     const handleStickyNavbar = () => {
         if (window.scrollY >= 80) {
             setSticky(true);
@@ -26,12 +28,7 @@ const Header: React.FC = () => {
             setSticky(false);
         }
     };
-    useEffect(() => {
-        window.addEventListener("scroll", handleStickyNavbar);
-    });
 
-    // submenu handler
-    const [openIndex, setOpenIndex] = useState(-1);
     const handleSubmenu = (index: SetStateAction<number>) => {
         if (openIndex === index) {
             setOpenIndex(-1);
@@ -40,175 +37,249 @@ const Header: React.FC = () => {
         }
     };
 
-    const location = useLocation();
+    const closeNavbar = () => {
+        setNavbarOpen(false);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleStickyNavbar);
+        return () => {
+            window.removeEventListener("scroll", handleStickyNavbar);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                setNavbarOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (navbarOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [navbarOpen]);
 
     return (
-        <>
-            <header
-                className={`w-full fixed top-0 left-0 z-40 ${
-                    sticky
-                        ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-                        : "bg-transparent"
-                }`}
-            >
-                <div className="container">
-                    <div className="flex items-center justify-between">
-                        <div className="w-60 max-w-full px-4 xl:mr-12">
-                            <Link
-                                to="/"
-                                className={`header-logo block w-full ${
-                                    sticky ? "py-5 lg:py-2" : "py-6"
-                                } `}
-                            >
-                                <img
-                                    src="/logo/logo-bar-colored.png"
-                                    alt="logo"
-                                    className="w-auto dark:hidden h-[46px]"
-                                />
-                                <img
-                                    src="/logo/logo-bar-colored.png"
-                                    alt="logo"
-                                    className="hidden w-auto dark:block h-[46px]"
-                                />
-                            </Link>
-                        </div>
-                            <div className="flex w-full items-center justify-between px-4">
-                                <button
-                                    onClick={navbarToggleHandler}
-                                    type="button"
-                                    id="navbarToggler"
-                                    aria-label="Mobile Menu"
-                                    className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
-                                >
-                                    <span
-                                        className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                                            navbarOpen
-                                                ? " top-[7px] rotate-45"
-                                                : " "
-                                        }`}
-                                    />
-                                    <span
-                                        className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                                            navbarOpen ? "opacity-0 " : " "
-                                        }`}
-                                    />
-                                    <span
-                                        className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                                            navbarOpen
-                                                ? " top-[-8px] -rotate-45"
-                                                : " "
-                                        }`}
-                                    />
-                                </button>
-                                <nav
-                                    id="navbarCollapse"
-                                    className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
-                                        navbarOpen
-                                            ? "visibility top-full opacity-100"
-                                            : "invisible top-[120%] opacity-0"
-                                    }`}
-                                >
-                                    <ul className="block lg:flex lg:space-x-12">
-                                        {Object.entries(pathConstants)
-                                            .filter(
-                                                ([_, value]) => value.navbar
-                                            )
-                                            .sort(
-                                                (a, b) =>
-                                                    (a[1].priority ?? 0) -
-                                                    (b[1].priority ?? 0)
-                                            )
-                                            .map(([key], index) => {
-                                                const menuItem =
-                                                    pathConstants[
-                                                        key as keyof RouteType
-                                                    ];
+        <header
+            className={`w-full fixed top-0 left-0 z-40 transition-all duration-300 ${
+                sticky
+                    ? "bg-white shadow-md backdrop-blur-sm !bg-opacity-90"
+                    : "bg-transparent"
+            }`}
+        >
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-between h-20">
+                    <div className="flex-shrink-0">
+                        <Link to="/" className="block" onClick={closeNavbar}>
+                            <img
+                                src="/logo/logo-bar-colored.png"
+                                alt="logo"
+                                className="h-12 w-auto dark:hidden"
+                            />
+                            <img
+                                src="/logo/logo-bar-colored.png"
+                                alt="logo"
+                                className="hidden h-12 w-auto dark:block"
+                            />
+                        </Link>
+                    </div>
 
-                                                return (
-                                                    <li
-                                                        key={index}
-                                                        className="group relative"
+                    <nav className="hidden lg:flex lg:items-center">
+                        <ul className="flex space-x-8">
+                            {Object.entries(pathConstants)
+                                .filter(([_, value]) => value.navbar)
+                                .sort(
+                                    (a, b) =>
+                                        (a[1].priority ?? 0) -
+                                        (b[1].priority ?? 0)
+                                )
+                                .map(([key], index) => {
+                                    const menuItem =
+                                        pathConstants[key as keyof RouteType];
+
+                                    return (
+                                        <li
+                                            key={index}
+                                            className="relative group"
+                                        >
+                                            {menuItem.path ? (
+                                                <Link
+                                                    to={menuItem.path}
+                                                    className={`inline-flex py-2 font-medium transition-colors duration-200 ${
+                                                        location.pathname ===
+                                                        menuItem.path
+                                                            ? "text-primary border-b-2 border-primary"
+                                                            : "text-gray-700 hover:text-primary"
+                                                    }`}
+                                                >
+                                                    {menuItem.text}
+                                                </Link>
+                                            ) : (
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={() =>
+                                                            handleSubmenu(index)
+                                                        }
+                                                        className="flex items-center font-medium text-gray-700 hover:text-primary"
                                                     >
-                                                        {menuItem.path ? (
-                                                            <Link
-                                                                to={
-                                                                    menuItem.path
-                                                                }
-                                                                className={`flex py-2 light: text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
-                                                                    location.pathname ===
-                                                                    menuItem.path
-                                                                        ? "text-primary dark:text-white border-b border-primary dark:border-primary"
-                                                                        : "text-dark hover:opacity-70 dark:text-white/70 dark:hover:text-white border-b border-black"
-                                                                }`}
-                                                            >
-                                                                {menuItem.text}
-                                                            </Link>
-                                                        ) : (
-                                                            <>
-                                                                <p
-                                                                    onClick={() =>
-                                                                        handleSubmenu(
-                                                                            index
-                                                                        )
-                                                                    }
-                                                                    className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:text-primary dark:text-white/70 dark:group-hover:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6"
-                                                                >
-                                                                    {
-                                                                        menuItem.text
-                                                                    }
-                                                                    <span className="pl-3">
-                                                                        <svg
-                                                                            width="25"
-                                                                            height="24"
-                                                                            viewBox="0 0 25 24"
-                                                                        >
-                                                                            <path
-                                                                                fillRule="evenodd"
-                                                                                clipRule="evenodd"
-                                                                                d="M6.29289 8.8427C6.68342 8.45217 7.31658 8.45217 7.70711 8.8427L12 13.1356L16.2929 8.8427C16.6834 8.45217 17.3166 8.45217 17.7071 8.8427C18.0976 9.23322 18.0976 9.86639 17.7071 10.2569L12 15.964L6.29289 10.2569C5.90237 9.86639 5.90237 9.23322 6.29289 8.8427Z"
-                                                                                fill="currentColor"
-                                                                            />
-                                                                        </svg>
-                                                                    </span>
-                                                                </p>
-                                                            </>
-                                                        )}
-                                                    </li>
-                                                );
-                                            })}
-                                    </ul>
-                                </nav>
-                            </div>
+                                                        {menuItem.text}
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                        </ul>
+                    </nav>
 
+                    <div className="hidden lg:flex lg:items-center lg:space-x-4">
                         {isAuthenticated ? (
                             <button
-                                className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-lg bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-                                onClick={()=> {logout();
-                                    navigate("/entrar")
+                                className="rounded-lg bg-primary px-6 py-2.5 font-medium text-white transition-all duration-200 hover:bg-primary/90 hover:shadow-lg"
+                                onClick={() => {
+                                    logout();
+                                    navigate("/entrar");
                                 }}
                             >
                                 Sair
                             </button>
                         ) : (
-                            <div className="flex items-center justify-end pr-16 lg:pr-0">
+                            <>
                                 <Link
                                     to="/entrar"
-                                    className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
+                                    className="font-medium text-gray-700 hover:text-primary"
                                 >
                                     Entrar
                                 </Link>
                                 <Link
                                     to="/registrar"
-                                    className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-lg bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                                    className="rounded-lg bg-primary px-6 py-2.5 font-medium text-white transition-all duration-200 hover:bg-primary/90 hover:shadow-lg"
                                 >
                                     Registrar
                                 </Link>
-                            </div>
+                            </>
                         )}
                     </div>
+
+                    <button
+                        onClick={navbarToggleHandler}
+                        className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-primary focus:outline-none lg:hidden"
+                        aria-expanded={navbarOpen}
+                    >
+                        <FontAwesomeIcon
+                            className="text-primary"
+                            icon={faBars}
+                        />
+                    </button>
                 </div>
-            </header>
-        </>
+            </div>
+
+            <div
+                className={` bg-white fixed top-0 right-0 z-50 h-screen w-[280px] p-6 shadow-xl transition-transform duration-300 ease-in-out lg:hidden  ${
+                    navbarOpen ? "translate-x-0" : "translate-x-full"
+                }`}
+            >
+                <div className="flex justify-end w-full">
+                    <button
+                        onClick={navbarToggleHandler}
+                        className="text-primary"
+                    >
+                        <FontAwesomeIcon icon={faXmark} />
+                    </button>
+                </div>
+
+                <nav>
+                    <ul className="space-y-4">
+                        {Object.entries(pathConstants)
+                            .filter(([_, value]) => value.navbar)
+                            .sort(
+                                (a, b) =>
+                                    (a[1].priority ?? 0) - (b[1].priority ?? 0)
+                            )
+                            .map(([key], index) => {
+                                const menuItem =
+                                    pathConstants[key as keyof RouteType];
+
+                                return (
+                                    <li key={index}>
+                                        {menuItem.path ? (
+                                            <Link
+                                                to={menuItem.path}
+                                                className={`block text-base font-medium ${
+                                                    location.pathname ===
+                                                    menuItem.path
+                                                        ? "text-primary"
+                                                        : "text-gray-700 hover:text-primary"
+                                                }`}
+                                                onClick={closeNavbar}
+                                            >
+                                                {menuItem.text}
+                                            </Link>
+                                        ) : (
+                                            <>
+                                                <button
+                                                    onClick={() =>
+                                                        handleSubmenu(index)
+                                                    }
+                                                    className="flex w-full items-center justify-between py-2 text-base font-medium text-gray-700 hover:text-primary"
+                                                >
+                                                    {menuItem.text}
+                                                </button>
+                                            </>
+                                        )}
+                                    </li>
+                                );
+                            })}
+                    </ul>
+                </nav>
+
+                <div className="mt-4 space-y-4">
+                    {isAuthenticated ? (
+                        <button
+                            className="w-full rounded-lg bg-primary py-2.5 text-center font-medium text-white transition-all duration-200 hover:bg-primary/90"
+                            onClick={() => {
+                                logout();
+                                navigate("/entrar");
+                                closeNavbar();
+                            }}
+                        >
+                            Sair
+                        </button>
+                    ) : (
+                        <>
+                            <Link
+                                to="/entrar"
+                                className="block w-full rounded-lg border border-gray-300 py-2.5 text-center font-medium text-gray-700 transition-all duration-200 hover:bg-gray-50"
+                                onClick={closeNavbar}
+                            >
+                                Entrar
+                            </Link>
+                            <Link
+                                to="/registrar"
+                                className="block w-full rounded-lg bg-primary py-2.5 text-center font-medium text-white transition-all duration-200 hover:bg-primary/90"
+                                onClick={closeNavbar}
+                            >
+                                Registrar
+                            </Link>
+                        </>
+                    )}
+                </div>
+            </div>
+        </header>
     );
 };
 
