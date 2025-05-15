@@ -10,3 +10,9 @@ export const getWordID = async (id: string) => {
     const res = await axios.get<WordProps>(`/api/words/${id}`);
     return res.data;
 };
+
+export const getAttachments = async (id: string) => {
+    const url = `/api/words/${id}/attachments/?page=${1}&page_size=${5}`;
+    const res = await axios.get<AttachmentProps[]>(url);
+    return res.data;
+};

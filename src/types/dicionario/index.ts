@@ -1,6 +1,19 @@
 export {};
 
 declare global {
+
+    interface AttachmentProps {
+        id: number;
+        uuid: string,
+        filename: string,
+        filedir: string,
+        url: string,
+        content_type: string,
+        user_id: number,
+        word_id: number,
+        created_at: string,
+        updated_at: string,
+      }
     interface MeaningProps {
         id: number;
         meaning_pt: string;

@@ -1,19 +1,21 @@
 // src/pages/PalavraDetalhe.tsx
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useGetWordID } from "@/hooks/dicionario";
+import { useAttachments, useGetWordID } from "@/hooks/dicionario";
 
 const PalavraDetalhe = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
     const { data, isLoading, isError } = useGetWordID(id || "");
+    const { data: attachments, isLoading: isLoadingAttachments } =
+        useAttachments(id || "");
 
     const handleGoBack = () => {
         navigate(-1);
     };
 
-    if (isLoading) {
+    if (isLoading || isLoadingAttachments) {
         return (
             <div className="flex items-center justify-center h-screen">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>

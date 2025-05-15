@@ -161,9 +161,13 @@ const Dicionario = () => {
                                     <td className="px-6 py-4 text-sm text-gray-500">
                                         {word.phonemic || "-"}
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {word.categories[0].category}
-                                    </td>
+                                    <div className="flex">
+                                        {word.categories.map((item) => (
+                                            <td className="px-6 py-4 text-sm text-gray-500">
+                                                {item.category}
+                                            </td>
+                                        ))}
+                                    </div>
                                 </tr>
                             ))
                         ) : isLoading ? (
