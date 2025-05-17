@@ -11,11 +11,14 @@ const Dicionario = () => {
     const [pageSize, setPageSize] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const { data, isLoading, isError } = useWords(currentPage, pageSize);
-    const words: WordProps[] = Array.isArray(data) ? data : data?.results || [];
-    const hasMore = words.length === pageSize;
+    const { data, isLoading, isError } = useWords(currentPage, pageSize, searchTerm);
 
-    useEffect(() => {
+    console.log(data)
+console.log(searchTerm)
+    const words = data
+
+
+   /*  useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm, pageSize]);
 
@@ -69,11 +72,12 @@ const Dicionario = () => {
             <div className="flex justify-center py-10 text-red-500">
                 Erro ao carregar os dados.
             </div>
-        );
+        ); */
 
     return (
         <div className="flex-1 mt-32 mx-20 items-center">
-            <div>
+            <input type="text" onChange={(e)=> setSearchTerm(e.target.value)} name="searchInput" placeholder="Buscar palavra..." defaultValue={searchTerm} className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+          {/*   <div>
                 <div className="flex justify-center gap-2">
                     <form
                         onSubmit={handleSearch}
@@ -269,7 +273,7 @@ const Dicionario = () => {
             <div className="text-center mt-4 text-sm text-gray-600">
                 Página {currentPage} • Exibindo {words.length}{" "}
                 {words.length === 1 ? "item" : "itens"}
-            </div>
+            </div> */}
         </div>
     );
 };

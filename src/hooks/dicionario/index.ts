@@ -5,10 +5,10 @@ import {
 } from "@/services/dicionario/wordService";
 import { useQuery } from "@tanstack/react-query";
 
-export const useWords = (page: number = 1, pageSize: number = 10) => {
+export const useWords = (page: number = 1, pageSize: number = 10, searchTerm: string = "") => {
     return useQuery({
-        queryKey: ["words", page, pageSize],
-        queryFn: async () => await getWords(page, pageSize),
+        queryKey: ["words", page, pageSize, searchTerm],
+        queryFn: async () => await getWords(page, pageSize, searchTerm),
         staleTime: 1000 * 60 * 5,
     });
 };
