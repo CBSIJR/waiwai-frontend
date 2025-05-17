@@ -15,7 +15,7 @@ export const useWordsList = (
 ) => {
     return useQuery<WordsListResponse>({
         queryKey: [QUERY_KEYS.WORDS_LIST, params],
-        queryFn: () => dictionaryApi.getWords(params),
+        queryFn: async () => await dictionaryApi.getWords(params),
         ...options,
     });
 };

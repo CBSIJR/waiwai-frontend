@@ -46,3 +46,7 @@ html,
     content: "\201D";
 }
 
+.ant-spin .ant-spin-dot-item {
+    @apply bg-primary;
+  }
+

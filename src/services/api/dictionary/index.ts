@@ -1,4 +1,4 @@
-import { api } from "../config";
+import axios from "axios";
 
 export const dictionaryApi = {
     /**
@@ -7,9 +7,12 @@ export const dictionaryApi = {
      * @returns Promise com a resposta da API contendo lista de palavras
      */
     getWords: async (params?: WordListParams): Promise<WordsListResponse> => {
-        const response = await api.get<WordsListResponse>("/words/", {
-            params,
-        });
+        let url = `api/words/?page=${params?.page}&page_size=${params?.page_size}`;
+        if (params?.q) {
+            url = `api/words/?q=${params.q}&page=${params.page}&page_size=${params.page_size}`;
+        }
+        const response = await axios.get<WordsListResponse>(url);
+        console.log("total", response.data)
         return response.data;
     },
 
@@ -19,7 +22,7 @@ export const dictionaryApi = {
      * @returns Promise com a resposta da API contendo os detalhes da palavra
      */
     getWordById: async (wordId: number): Promise<WordResponse> => {
-        const response = await api.get<WordResponse>(`/word/${wordId}`);
+        const response = await axios.get<WordResponse>(`api/word/${wordId}`);
         return response.data;
     },
 };
