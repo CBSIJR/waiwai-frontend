@@ -1,18 +1,17 @@
-// src/components/dictionary/WordItem.tsx
-
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface WordItemProps {
     word: Word;
 }
 
 const WordItem: React.FC<WordItemProps> = ({ word }) => {
-    console.log("word", word)
+    const navigate = useNavigate();
+    
     return (
-        <Link
-            to={`/dicionario/${word.id}`}
-            className="block p-4 mb-4 bg-white rounded-lg w-full border border-stroke hover:shadow-one transition-shadow duration-300"
+        <div
+            onClick={() => navigate(`/dicionario/${word.id}`)}
+            className="block p-4 mb-4 bg-white rounded-lg w-min-full border border-stroke hover:shadow-one transition-shadow duration-300"
         >
             <div className="flex flex-col">
                 <div className="flex items-center justify-between">
@@ -37,7 +36,7 @@ const WordItem: React.FC<WordItemProps> = ({ word }) => {
                     </div>
                 )}
             </div>
-        </Link>
+        </div>
     );
 };
 

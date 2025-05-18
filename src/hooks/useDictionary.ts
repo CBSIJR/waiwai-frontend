@@ -4,6 +4,7 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 export const QUERY_KEYS = {
     WORDS_LIST: "words-list",
     WORD_DETAILS: "word-details",
+    ATTACHMENTS: "attachments",
 };
 
 /**
@@ -24,13 +25,25 @@ export const useWordsList = (
  * Hook para buscar detalhes de uma palavra específica
  */
 export const useWordDetails = (
-    wordId: number,
+    wordId: string,
     options?: UseQueryOptions<WordResponse>
 ) => {
     return useQuery<WordResponse>({
         queryKey: [QUERY_KEYS.WORD_DETAILS, wordId],
-        queryFn: () => dictionaryApi.getWordById(wordId),
-        enabled: !!wordId, // Só executa se wordId for fornecido
+        queryFn: async () => await dictionaryApi.getWordById(wordId),
+        enabled: !!wordId,
+        ...options,
+    });
+};
+
+export const useAttachments = (
+    wordId: string,
+    options?: UseQueryOptions<AttachmentListResponse>
+) => {
+    return useQuery<AttachmentListResponse>({
+        queryKey: [QUERY_KEYS.ATTACHMENTS, wordId],
+        queryFn: async () => await dictionaryApi.getAttachmentById(wordId),
+        enabled: !!wordId,
         ...options,
     });
 };

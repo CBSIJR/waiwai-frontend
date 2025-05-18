@@ -5,9 +5,43 @@ declare global {
         category: string;
     }
 
+    interface Attachment {
+        name: string;
+        id: number;
+        uuid: string;
+        filename: string;
+        filedir: string;
+        url: string;
+        content_type: string;
+        user_id: number;
+        word_id: number;
+        created_at: string; 
+        updated_at: string; 
+    }
+
+    interface Reference {
+        id: number;
+        authors: string;
+        reference: string;
+        url: string | null;
+        year: number;
+    }
+
+    interface Meaning {
+        id: number;
+        meaning_pt: string;
+        meaning_ww: string;
+        comment_pt: string | null;
+        comment_ww: string | null;
+        reference: Reference;
+        created_at: string;
+        updated_at: string;
+    }
+
     interface Word {
         id: number;
         word: string;
+        meanings: Meaning[];
         phonemic: string;
         categories: Category[];
         created_at: string;
@@ -19,10 +53,15 @@ declare global {
         total_items: number;
     }
 
+    interface AttachmentListResponse {
+        data: Attachment[];
+        total_items: number;
+    }
+
     interface WordListParams {
-        q?: string; // Filtro de busca
-        page?: number; // Página atual
-        page_size?: number; // Quantidade de itens por página
+        q?: string; 
+        page?: number; 
+        page_size?: number; 
     }
 
     interface WordResponse {
