@@ -14,7 +14,7 @@ const WordsList: React.FC = () => {
 
     const [searchValue, setSearchValue] = useState("");
 
-    const { data, isLoading, isError, error } = useWordsList(searchParams);
+    const { data, refetch, isLoading, isError, error } = useWordsList(searchParams);
 
     console.log(data?.data.length);
 
@@ -56,7 +56,7 @@ const WordsList: React.FC = () => {
                         : "Ocorreu um erro desconhecido"}
                 </p>
                 <button
-                    onClick={() => handlePageChange(1, searchParams.page_size)}
+                    onClick={() => refetch()}
                     className="mt-4 px-6 py-2 bg-primary text-white rounded-md hover:opacity-90 transition-opacity"
                 >
                     Tentar novamente
