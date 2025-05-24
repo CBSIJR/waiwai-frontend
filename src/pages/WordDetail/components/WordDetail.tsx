@@ -13,7 +13,7 @@ import { formatDate } from "@/utils/dateFormat";
 import AttachmentsSection from "./AttachmentsSection";
 
 const WordDetail: React.FC = () => {
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
