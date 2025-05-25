@@ -19,7 +19,7 @@ export type ColorBadge =
     | "pink";
 
 export type BadgeProps = {
-    textBadge: String;
+    textBadge: string;
     color: ColorBadge;
 };
 
