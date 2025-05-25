@@ -28,7 +28,7 @@ jobs:
       - name: Save environment variables
         run:
           echo "VITE_APP_TITLE=${{ secrets.APP_TITLE }}" >> ./.env.production &&
-          echo "BASE_URL=${{ secrets.API_URL }}" >> ./.env.production
+          echo "VITE_API_BASE_URL=${{ secrets.API_BASE_URL }}" >> ./.env.production
       
       - name: Test environment variables
         run: cat ./.env.production
