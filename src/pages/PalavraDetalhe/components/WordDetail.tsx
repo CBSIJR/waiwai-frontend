@@ -1,29 +1,25 @@
 // src/components/dictionary/WordDetail.tsx
 
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Spin, Button, Empty, Typography } from "antd";
+import { useGetAttachmentsQuery, useGetWordDetailQuery } from "@/pages/PalavraDetalhe/api/Queries";
+import { fnDateFormatDDMMYYYY } from "@/utils";
+import { faArrowLeft, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faArrowLeft,
-    faCalendarAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { useAttachments, useWordDetails } from "@/hooks/useDictionary";
-import { formatDate } from "@/utils/dateFormat";
+import { Button, Empty, Spin, Typography } from "antd";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import AttachmentsSection from "./AttachmentsSection";
-import { apiUrl } from "@/constraints";
 
 const WordDetail: React.FC = () => {
-
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
-    const { data, isLoading, isError } = useWordDetails(id || "");
-    const { data: attachments, isLoading: isLoadingAttachments } =
-        useAttachments(id || "");
+    const { data, isLoading, isError } = useGetWordDetailQuery(id || "");
 
-    const formatDateString = (dateString: string) => {
-        return formatDate(dateString);
+    const { data: attachments, isLoading: isLoadingAttachments } =
+        useGetAttachmentsQuery(id || "");
+
+    const fnFormatDate = (date: Date) => {
+        return fnDateFormatDDMMYYYY(date);
     };
 
     const handleGoBack = () => {
@@ -88,7 +84,7 @@ const WordDetail: React.FC = () => {
                         <p className="mt-2 text-sm md:text-lg text-white">
                             {word.phonemic
                                 ? `/${word.phonemic}/`
-                                : "Nenhuma fonetica registrada"}
+                                : "Nenhuma fonética registrada"}
                         </p>
                     </div>
 
@@ -173,10 +169,7 @@ const WordDetail: React.FC = () => {
                 </p>
             )}
 
-            {attachments && (
-                <AttachmentsSection attachments={attachments} apiUrl={apiUrl} />
-            )}
-
+            {attachments && <AttachmentsSection attachments={attachments} />}
             <div className="mt-8 pt-4 text-sm text-body-color">
                 <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                     <div>
@@ -185,7 +178,7 @@ const WordDetail: React.FC = () => {
                             className="mr-2"
                         />
                         <span>
-                            Criado em: {formatDateString(word.created_at)}
+                            Criado em: {fnFormatDate(word.created_at)}
                         </span>
                     </div>
                     <div>
@@ -194,7 +187,7 @@ const WordDetail: React.FC = () => {
                             className="mr-2"
                         />
                         <span>
-                            Atualizado em: {formatDateString(word.updated_at)}
+                            Atualizado em: {fnFormatDate(word.updated_at)}
                         </span>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Word } from "../Dicionario.types";
 
 interface WordItemProps {
     word: Word;

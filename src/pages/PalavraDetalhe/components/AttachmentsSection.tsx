@@ -1,13 +1,13 @@
+import { API_BASE_URL } from "@/constraints";
 import { Image } from "antd";
+import { Attachment } from "../PalavraDetalhe.types";
 import AudioPlayer from "./AudioPlayer";
 
-interface Props {
+interface AttachmentsSectionProps {
     attachments: { data: Attachment[] };
-    apiUrl: string;
 }
 
-const AttachmentsSection = ({ attachments, apiUrl }: Props) => {
-    
+const AttachmentsSection = ({ attachments }: AttachmentsSectionProps) => {
     const imageAttachments = attachments.data.filter((item) =>
         item.content_type.includes("image/")
     );
@@ -38,8 +38,8 @@ const AttachmentsSection = ({ attachments, apiUrl }: Props) => {
                                 className="rounded-lg overflow-hidden shadow-one"
                             >
                                 <Image
-                                    src={`${apiUrl}${item.url}`}
-                                    alt={item.name || "Anexo de imagem"}
+                                    src={`${API_BASE_URL}${item.url}`}
+                                    alt={"Anexo de imagem"}
                                     className="object-cover w-full h-48"
                                 />
                             </div>
@@ -55,7 +55,7 @@ const AttachmentsSection = ({ attachments, apiUrl }: Props) => {
                         {audioAttachments.map((item) => (
                             <AudioPlayer
                                 key={item.id}
-                                src={`${apiUrl}${item.url}`}
+                                src={`${API_BASE_URL}${item.url}`}
                                 title={`Áudio ${item.id}`}
                                 type={item.content_type}
                             />

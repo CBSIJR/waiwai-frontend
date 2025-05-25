@@ -1,4 +1,3 @@
-import { EnumPermission } from "@/types";
 import { jwtDecode } from "jwt-decode";
 
 export interface JWT {
@@ -13,7 +12,7 @@ export interface JWT {
 export interface Data {
     name: string;
     email: string;
-    permissions: EnumPermission;
+    permissions: "GUEST" | "USER" | "ADMIN";
 }
 
 class TokenDecode {

@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "tailwindcss";
-import svgr from "vite-plugin-svgr";
 import path from "path";
+import tailwindcss from "tailwindcss";
+import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
@@ -21,17 +21,10 @@ export default defineConfig({
             "@/layouts": path.resolve(__dirname, "./src/components/Layouts"),
             "@/hooks": path.resolve(__dirname, "./src/hooks"),
             "@/contexts": path.resolve(__dirname, "./src/contexts"),
+            "@/api": path.resolve(__dirname, "./src/api"),
         },
     },
     server: {
-        proxy: {
-            "/api": {
-                target: "https://api.pawana.com.br",
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ""),
-            },
-        },
-
         watch: {
             usePolling: true,
         },

@@ -6,7 +6,7 @@ import {
     Purpose,
 } from "@/pages/Inicio/components";
 
-const Inicio: React.FC = () => {
+const InicioPage: React.FC = () => {
     return (
         <>
             <Application />
@@ -18,4 +18,4 @@ const Inicio: React.FC = () => {
     );
 };
 
-export default Inicio;
+export default InicioPage;

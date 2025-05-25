@@ -1,7 +1,7 @@
 import Banner from "./components/Banner";
 import WordsList from "./components/WordsList";
 
-const Dictionary: React.FC = () => {
+const DicionarioPage: React.FC = () => {
     return (
         <div className="flex flex-col items-center justify-center lg:mt-16">
             <Banner />
@@ -12,4 +12,4 @@ const Dictionary: React.FC = () => {
     );
 };
 
-export default Dictionary;
+export default DicionarioPage;

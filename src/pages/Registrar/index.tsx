@@ -1,8 +1,8 @@
 import Form from "@/components/form";
-import { useAuth } from "@/hooks/useAuth";
-import { signup } from "@/services/authService";
+import { fnErrorMessage } from "@/utils";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSignupMutation } from "./api/Mutation";
 
 const Registrar = () => {
     const [formData, setFormData] = useState({
@@ -16,9 +16,8 @@ const Registrar = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
-    const { injectToken } = useAuth();
 
-    const navigate = useNavigate();
+    const mutation = useSignupMutation();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -30,7 +29,6 @@ const Registrar = () => {
     };
 
     const validateEmail = (email: string): boolean => {
-        // Regex para validação de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
@@ -89,37 +87,25 @@ const Registrar = () => {
         setLoading(true);
         setError("");
 
-        try {
-            const tokens = await signup({
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-                email: formData.email,
-                password: formData.password,
-            });
+        mutation.mutate({
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+        }, {
+            onSuccess: () => {
+                setSuccess(true);
+            },
+            onError: (err: unknown) => {
+                const errMsg = fnErrorMessage(err);
+                setError(errMsg);
+                setSuccess(false);
+            },
+            onSettled: () => {
+                setLoading(false);
+            },
+        });
 
-            injectToken(tokens.access_token);
-            setSuccess(true);
-            navigate("/dicionario");
-        } catch (err: unknown) {
-            const apiError = err as ApiError;
-            if (apiError.response.status === 422) {
-                const detail = apiError.response?.data?.detail;
-                const allMessages = Array.isArray(detail)
-                    ? detail.map((o) => o.msg).join(" ")
-                    : typeof detail === "string"
-                      ? detail
-                      : "Ocorreu um erro ao fazer o registro.";
-
-                setError(allMessages);
-            } else {
-                setError(
-                    apiError.response?.data?.detail ||
-                        "Ocorreu um erro ao fazer o registro."
-                );
-            }
-        } finally {
-            setLoading(false);
-        }
     };
 
     const handleValidityChange = (isValid: boolean) => {
