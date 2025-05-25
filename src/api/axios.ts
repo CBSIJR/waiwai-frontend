@@ -7,9 +7,8 @@ const AxiosClient = () => {
         baseURL: API_BASE_URL,
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
         },
-        
+
     });
 
     // AxiosInstance.interceptors.request.use((request) => {
