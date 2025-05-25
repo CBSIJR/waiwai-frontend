@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import WordItem from "./WordItem";
-import { useWordsList } from "@/hooks/useDictionary";
 import { Empty, Input, Pagination, Spin } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+import { useGetWordsListQuery } from "../api/Queries";
+import WordItem from "./WordItem";
 
 const { Search } = Input;
 
@@ -14,7 +14,7 @@ const WordsList: React.FC = () => {
 
     const [searchValue, setSearchValue] = useState("");
 
-    const { data, refetch, isLoading, isError, error } = useWordsList(searchParams);
+    const { data, refetch, isLoading, isError, error } = useGetWordsListQuery(searchParams);
 
     const handlePageChange = (page: number, pageSize: number) => {
         setSearchParams((prev) => ({
@@ -51,7 +51,7 @@ const WordsList: React.FC = () => {
                 <p className="text-body-color">
                     {error instanceof Error
                         ? error.message
-                        : "Ocorreu um erro desconhecido"}
+                        : "Ocorreu um erro desconhecido!"}
                 </p>
                 <button
                     onClick={() => refetch()}
@@ -108,7 +108,7 @@ const WordsList: React.FC = () => {
                 </>
             ) : (
                 <Empty
-                    description="Nenhuma palavra encontrada"
+                    description="Nenhuma palavra encontrada!"
                     className="w-full py-12 h-screen"
                 />
             )}

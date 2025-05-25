@@ -3,13 +3,13 @@
  * @param dateString String de data para formatar
  * @returns Data formatada
  */
-export const formatDate = (dateString: string): string => {
+export default function fnDateFormatDDMMYYYY(dateString: Date): string {
     try {
         const date = new Date(dateString);
 
         // Verificar se a data é válida
         if (isNaN(date.getTime())) {
-            return dateString;
+            return dateString.toISOString();
         }
 
         // Formatar para dd/mm/yyyy
@@ -22,4 +22,4 @@ export const formatDate = (dateString: string): string => {
         const error = e as string;
         return error;
     }
-};
+}

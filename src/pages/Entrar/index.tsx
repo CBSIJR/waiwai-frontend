@@ -1,10 +1,10 @@
 import Form from "@/components/form";
-import { useAuth } from "@/hooks/useAuth";
-import { signin } from "@/services/authService";
+import { fnErrorMessage } from "@/utils";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSigninMutation } from "./api/Mutation";
 
-const Entrar = () => {
+const EntrarPage = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -12,8 +12,8 @@ const Entrar = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
-    const { injectToken } = useAuth();
-    const navigate = useNavigate();
+
+    const mutation = useSigninMutation();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -25,7 +25,6 @@ const Entrar = () => {
     };
 
     const validateEmail = (email: string): boolean => {
-        // Regex para validação de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
@@ -54,31 +53,24 @@ const Entrar = () => {
         setLoading(true);
         setError("");
 
-        try {
-            const tokens = await signin({
-                email: formData.email,
-                password: formData.password,
-            });
-            injectToken(tokens.access_token);
-            navigate("/dicionario");
-            setSuccess(true);
-        } catch (err: unknown) {
-            const apiError = err as ApiError;
-            console.log(apiError.response.status);
-            if (apiError.response?.status === 422) {
-                const details = apiError.response?.data?.detail;
-                const messages = Array.isArray(details)
-                    ? details.map((o: { msg: string }) => o.msg).join(" ")
-                    : typeof details === "string"
-                      ? details
-                      : "Ocorreu um erro ao entrar.";
-                setError(messages);
-            } else {
-                setError(apiError.response.data.detail.msg);
-            }
-        } finally {
-            setLoading(false);
-        }
+        mutation.mutate({
+            email: formData.email,
+            password: formData.password,
+        }, {
+            onSuccess: () => {
+                setSuccess(true);
+            },
+            onError: (err: unknown) => {
+                const errMsg = fnErrorMessage(err);
+                setError(errMsg);
+                setSuccess(false);
+            },
+            onSettled: () => {
+                setLoading(false);
+            },
+        });
+
+
     };
 
     const fields = [
@@ -138,4 +130,4 @@ const Entrar = () => {
     );
 };
 
-export default Entrar;
+export default EntrarPage;

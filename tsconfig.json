@@ -35,7 +35,8 @@
             "@/constraints": ["src/constraints"],
             "@/layouts": ["src/components/Layouts"],
             "@/contexts": ["src/contexts"],
-            "@/hooks": ["src/hooks"]
+            "@/hooks": ["src/hooks"],
+            "@/api": ["src/api"]
         }
     },
     "include": ["src"],

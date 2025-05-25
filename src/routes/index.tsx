@@ -1,6 +1,6 @@
 import { MainLayout } from "@/components/Layouts";
 import { pathConstants } from "@/constraints";
-import { Entrar, Inicio, Registrar, Dictionary, WordDetailPage } from "@/pages";
+import { Dicionario, Entrar, Inicio, PalavraDetalhe, Registrar } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 export default function Routes() {
@@ -14,11 +14,11 @@ export default function Routes() {
                 },
                 {
                     path: pathConstants.dicionario.path,
-                    element: <Dictionary />,
+                    element: <Dicionario />,
                 },
                 {
                     path: `${pathConstants.dicionario.path}/:id`,
-                    element: <WordDetailPage />,
+                    element: <PalavraDetalhe />,
                 },
                 {
                     path: pathConstants.entrar.path,

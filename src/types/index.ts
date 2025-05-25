@@ -33,14 +33,3 @@ export type LoadingContextType = {
     changeLoadingState: () => void;
 };
 
-export type RouteType = {
-    path: string;
-    text: string;
-    newTab: boolean;
-    navbar: boolean;
-    priority?: number;
-};
-
-export type RoutesType = {
-    [key: string]: RouteType;
-};

@@ -1,7 +1,6 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { pathConstants } from "@/constraints";
-import { RouteType } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";

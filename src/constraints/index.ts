@@ -1,4 +1,15 @@
-import { RoutesType } from "@/types";
+type RouteType = {
+    path: string;
+    text: string;
+    newTab: boolean;
+    navbar: boolean;
+    priority?: number;
+};
+
+type RoutesType = {
+    [key: string]: RouteType;
+};
+
 
 export const pathConstants: RoutesType = {
     inicio: {
@@ -41,4 +52,4 @@ export const QUERY_KEYS = {
     ATTACHMENTS: "attachments",
 };
 
-export const apiUrl = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
