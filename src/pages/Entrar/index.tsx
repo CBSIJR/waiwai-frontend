@@ -62,21 +62,19 @@ const Entrar = () => {
             injectToken(tokens.access_token);
             navigate("/dicionario");
             setSuccess(true);
-        } catch (err: any) {
-            if (err.response.status === 422) {
-                const detail = err.response?.data?.detail;
-                const allMessages = Array.isArray(detail)
-                    ? detail.map((o) => o.msg).join(" ")
-                    : typeof detail === "string"
-                      ? detail
+        } catch (err: unknown) {
+            const apiError = err as ApiError;
+            console.log(apiError.response.status);
+            if (apiError.response?.status === 422) {
+                const details = apiError.response?.data?.detail;
+                const messages = Array.isArray(details)
+                    ? details.map((o: { msg: string }) => o.msg).join(" ")
+                    : typeof details === "string"
+                      ? details
                       : "Ocorreu um erro ao entrar.";
-
-                setError(allMessages);
+                setError(messages);
             } else {
-                setError(
-                    err.response?.data?.detail ||
-                        "Ocorreu um erro ao entrar."
-                );
+                setError(apiError.response.data.detail.msg);
             }
         } finally {
             setLoading(false);

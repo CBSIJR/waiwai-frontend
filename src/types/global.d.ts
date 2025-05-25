@@ -1,4 +1,4 @@
-export {}
+export {};
 
 declare global {
     interface SignupPayload {
@@ -12,16 +12,24 @@ declare global {
         access_token: string;
         refresh_token: string;
         token_type: string;
-      }
+    }
 
-      interface AuthResponse {
+    interface AuthResponse {
         access_token: string;
         refresh_token: string;
         token_type: string;
-      }
+    }
 
-      export interface LoginPayload {
+    interface ApiErrorResponse {
+        detail: string | Array<{ msg: string }>;
+    }
+
+    interface ApiError extends AxiosError {
+        response?: AxiosResponse<ApiErrorResponse>;
+    }
+
+    interface LoginPayload {
         email: string;
         password: string;
-      }
+    }
 }

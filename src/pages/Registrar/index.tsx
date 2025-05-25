@@ -100,9 +100,10 @@ const Registrar = () => {
             injectToken(tokens.access_token);
             setSuccess(true);
             navigate("/dicionario");
-        } catch (err: any) {
-            if (err.response.status === 422) {
-                const detail = err.response?.data?.detail;
+        } catch (err: unknown) {
+            const apiError = err as ApiError;
+            if (apiError.response.status === 422) {
+                const detail = apiError.response?.data?.detail;
                 const allMessages = Array.isArray(detail)
                     ? detail.map((o) => o.msg).join(" ")
                     : typeof detail === "string"
@@ -112,7 +113,7 @@ const Registrar = () => {
                 setError(allMessages);
             } else {
                 setError(
-                    err.response?.data?.detail ||
+                    apiError.response?.data?.detail ||
                         "Ocorreu um erro ao fazer o registro."
                 );
             }
