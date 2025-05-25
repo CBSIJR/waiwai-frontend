@@ -3,11 +3,9 @@ import axios from "axios";
 function isValidationErrorDetail(item: unknown): item is ValidationErrorDetail {
     if (typeof item !== "object" || item === null) return false;
     const obj = item as Record<string, unknown>;
+    if (!Array.isArray(obj.loc)) return false;
+    if (!obj.loc.every(el => typeof el === "string" || typeof el === "number")) return false;
     return (
-        Array.isArray(obj.loc) &&
-        obj.loc.length === 2 &&
-        typeof obj.loc[0] === "string" &&
-        typeof obj.loc[1] === "number" &&
         typeof obj.msg === "string" &&
         typeof obj.type === "string"
     );
