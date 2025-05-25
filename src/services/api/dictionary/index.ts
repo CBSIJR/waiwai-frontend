@@ -7,7 +7,6 @@ export const dictionaryApi = {
      * @returns Promise com a resposta da API contendo lista de palavras
      */
     getWords: async (params?: WordListParams): Promise<WordsListResponse> => {
-        console.log(params);
         let url = `api/words/?page=${params?.page}&page_size=${params?.page_size}`;
         if (params?.q) {
             url = `api/words/?q=${params.q}&page=${params.page}&page_size=${params.page_size}`;

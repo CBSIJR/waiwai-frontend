@@ -11,9 +11,9 @@ import {
 import { useAttachments, useWordDetails } from "@/hooks/useDictionary";
 import { formatDate } from "@/utils/dateFormat";
 import AttachmentsSection from "./AttachmentsSection";
+import { apiUrl } from "@/constraints";
 
 const WordDetail: React.FC = () => {
-    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
@@ -25,8 +25,6 @@ const WordDetail: React.FC = () => {
     const formatDateString = (dateString: string) => {
         return formatDate(dateString);
     };
-
-    console.log("attachments", attachments?.data);
 
     const handleGoBack = () => {
         navigate(-1);

@@ -16,8 +16,6 @@ const WordsList: React.FC = () => {
 
     const { data, refetch, isLoading, isError, error } = useWordsList(searchParams);
 
-    console.log(data?.data.length);
-
     const handlePageChange = (page: number, pageSize: number) => {
         setSearchParams((prev) => ({
             ...prev,

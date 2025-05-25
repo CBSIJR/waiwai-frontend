@@ -1,11 +1,6 @@
+import { QUERY_KEYS } from "@/constraints";
 import { dictionaryApi } from "@/services/api/dictionary";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-
-export const QUERY_KEYS = {
-    WORDS_LIST: "words-list",
-    WORD_DETAILS: "word-details",
-    ATTACHMENTS: "attachments",
-};
 
 /**
  * Hook para buscar lista de palavras

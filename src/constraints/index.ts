@@ -34,3 +34,11 @@ export const pathConstants: RoutesType = {
         navbar: false,
     },
 };
+
+export const QUERY_KEYS = {
+    WORDS_LIST: "words-list",
+    WORD_DETAILS: "word-details",
+    ATTACHMENTS: "attachments",
+};
+
+export const apiUrl = import.meta.env.VITE_API_BASE_URL;
