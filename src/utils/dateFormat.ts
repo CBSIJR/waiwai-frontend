@@ -5,20 +5,21 @@
  */
 export const formatDate = (dateString: string): string => {
     try {
-      const date = new Date(dateString);
-      
-      // Verificar se a data é válida
-      if (isNaN(date.getTime())) {
-        return dateString;
-      }
-      
-      // Formatar para dd/mm/yyyy
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
-      
-      return `${day}/${month}/${year}`;
-    } catch (e) {
-      return dateString;
+        const date = new Date(dateString);
+
+        // Verificar se a data é válida
+        if (isNaN(date.getTime())) {
+            return dateString;
+        }
+
+        // Formatar para dd/mm/yyyy
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    } catch (e: unknown) {
+        const error = e as string;
+        return error;
     }
-  };
+};

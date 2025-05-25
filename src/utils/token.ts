@@ -13,19 +13,17 @@ export interface JWT {
 export interface Data {
     name: string;
     email: string;
-    permissions: EnumPermission 
+    permissions: EnumPermission;
 }
 
 class TokenDecode {
     private decodedToken: JWT;
 
     constructor(token: string) {
-        try {
-            if (token) this.decodedToken = jwtDecode(token);
-            else throw new Error("Token está vazio.");
-        } catch (e) {
-            throw e;
+        if (!token) {
+            throw new Error("Token está vazio.");
         }
+        this.decodedToken = jwtDecode(token);
     }
     private get getExp(): number {
         return this.decodedToken.exp;

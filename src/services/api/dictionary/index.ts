@@ -21,7 +21,7 @@ export const dictionaryApi = {
      * @returns Promise com a resposta da API contendo os detalhes da palavra
      */
     getWordById: async (wordId: string): Promise<WordResponse> => {
-        let url = `/api/words/${wordId}`;
+        const url = `/api/words/${wordId}`;
 
         const response = await axios.get<WordResponse>(url);
         return response.data;
@@ -33,7 +33,7 @@ export const dictionaryApi = {
      * @returns Promise com a resposta da API contendo os detalhes da palavra
      */
      getAttachmentById: async (wordId: string): Promise<AttachmentListResponse> => {
-        let url = `/api/words/${wordId}/attachments/?page=${1}&page_size=${5}`;
+        const url = `/api/words/${wordId}/attachments/?page=${1}&page_size=${5}`;
 
         const response = await axios.get<AttachmentListResponse>(url);
         return response.data;

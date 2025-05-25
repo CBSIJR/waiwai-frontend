@@ -5,7 +5,7 @@ import Routes from "@/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { EnumTheme } from "./types/themeTypes";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthProvider";
 
 // Create a client
 const queryClient = new QueryClient();

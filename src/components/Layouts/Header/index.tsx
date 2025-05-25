@@ -101,7 +101,7 @@ const Header: React.FC = () => {
                     <nav className="hidden lg:flex lg:items-center">
                         <ul className="flex space-x-8">
                             {Object.entries(pathConstants)
-                                .filter(([_, value]) => value.navbar)
+                                .filter(([, value]) => value.navbar)
                                 .sort(
                                     (a, b) =>
                                         (a[1].priority ?? 0) -
@@ -205,7 +205,7 @@ const Header: React.FC = () => {
                 <nav>
                     <ul className="space-y-4">
                         {Object.entries(pathConstants)
-                            .filter(([_, value]) => value.navbar)
+                            .filter(([, value]) => value.navbar)
                             .sort(
                                 (a, b) =>
                                     (a[1].priority ?? 0) - (b[1].priority ?? 0)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WordItem from "./WordItem";
 import { useWordsList } from "@/hooks/useDictionary";
 import { Empty, Input, Pagination, Spin } from "antd";
@@ -24,13 +24,13 @@ const WordsList: React.FC = () => {
         }));
     };
 
-    const handleSearch = (value: string) => {
+    const handleSearch = useCallback((value: string) => {
         setSearchParams((prev) => ({
             ...prev,
             q: value,
             page: 1,
         }));
-    };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -40,7 +40,7 @@ const WordsList: React.FC = () => {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchValue]);
+    }, [searchValue, searchParams.q, handleSearch]);
 
     if (isError) {
         return (
@@ -71,7 +71,7 @@ const WordsList: React.FC = () => {
                     allowClear
                     size="large"
                     value={searchValue}
-                    onChange={(e: any) => setSearchValue(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
                     onSearch={handleSearch}
                     className="max-w-xl"
                 />
