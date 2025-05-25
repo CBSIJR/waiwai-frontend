@@ -11,7 +11,7 @@ export function useSignupMutation() {
     return useMutation<ApiResponse<AccessResponse>, Error, SignupPayload>({
         mutationFn: (data: SignupPayload) =>
             axios
-                .post<ApiResponse<AccessResponse>>("/auth/signup", data)
+                .post<ApiResponse<AccessResponse>>("/auth/signup/", data)
                 .then(res => res.data),
 
         onSuccess: (res) => {
