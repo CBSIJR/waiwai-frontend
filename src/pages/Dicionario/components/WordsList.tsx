@@ -1,11 +1,14 @@
-import { Empty, Input, Pagination, Spin } from "antd";
+import { Button, Empty, Input, Pagination, Spin } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useGetWordsListQuery } from "../api/Queries";
 import WordItem from "./WordItem";
+import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 
 const WordsList: React.FC = () => {
+    const navigate = useNavigate();
+
     const [searchParams, setSearchParams] = useState({
         q: "",
         page: 1,
@@ -14,7 +17,8 @@ const WordsList: React.FC = () => {
 
     const [searchValue, setSearchValue] = useState("");
 
-    const { data, refetch, isLoading, isError, error } = useGetWordsListQuery(searchParams);
+    const { data, refetch, isLoading, isError, error } =
+        useGetWordsListQuery(searchParams);
 
     const handlePageChange = (page: number, pageSize: number) => {
         setSearchParams((prev) => ({
@@ -44,7 +48,7 @@ const WordsList: React.FC = () => {
 
     if (isError) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 bg-gray-light rounded-lg">
+            <div className="flex flex-col items-center justify-center p-8 rounded-lg">
                 <h3 className="text-xl font-bold text-primary mb-2">
                     Erro ao carregar palavras
                 </h3>
@@ -65,16 +69,25 @@ const WordsList: React.FC = () => {
 
     return (
         <div className="container mx-auto py-6 h-full w-full">
-            <div className="mb-6">
+            <div className="flex justify-center items-center mb-6 gap-2">
                 <Search
                     placeholder="Buscar palavras..."
                     allowClear
                     size="large"
                     value={searchValue}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setSearchValue(e.target.value)
+                    }
                     onSearch={handleSearch}
                     className="max-w-xl"
                 />
+                <Button
+                    size="large"
+                    onClick={() => navigate("/dicionario/adicionar-palavra")}
+                    className="bg-primary text-white "
+                >
+                    Adicionar palavra
+                </Button>
             </div>
 
             {isLoading ? (

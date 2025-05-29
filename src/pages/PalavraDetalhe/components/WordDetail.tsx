@@ -1,8 +1,12 @@
 // src/components/dictionary/WordDetail.tsx
 
-import { useGetAttachmentsQuery, useGetWordDetailQuery } from "@/pages/PalavraDetalhe/api/Queries";
+import {
+    useGetAttachmentsQuery,
+    useGetWordDetailQuery,
+} from "@/pages/PalavraDetalhe/api/Queries";
 import { fnDateFormatDDMMYYYY } from "@/utils";
-import { faArrowLeft, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Empty, Spin, Typography } from "antd";
 import React from "react";
@@ -66,16 +70,12 @@ const WordDetail: React.FC = () => {
                     <div>
                         <div className="flex items-center gap-2">
                             <Button
-                                onClick={handleGoBack}
                                 type="text"
-                                className="text-white"
-                                icon={
-                                    <FontAwesomeIcon
-                                        icon={faArrowLeft}
-                                        size="lg"
-                                    />
-                                }
+                                icon={<ArrowLeftOutlined />}
+                                onClick={() => window.history.back()}
+                                className="flex items-center"
                             />
+
                             <h1 className="text-3xl md:text-4xl font-bold">
                                 {word.word}
                             </h1>
@@ -177,9 +177,7 @@ const WordDetail: React.FC = () => {
                             icon={faCalendarAlt}
                             className="mr-2"
                         />
-                        <span>
-                            Criado em: {fnFormatDate(word.created_at)}
-                        </span>
+                        <span>Criado em: {fnFormatDate(word.created_at)}</span>
                     </div>
                     <div>
                         <FontAwesomeIcon

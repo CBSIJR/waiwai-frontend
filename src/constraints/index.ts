@@ -50,6 +50,8 @@ export const QUERY_KEYS = {
     WORDS_LIST: "words-list",
     WORD_DETAILS: "word-details",
     ATTACHMENTS: "attachments",
+    CATEGORIES: "categories",
+    REFERENCES: "references",
 };
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

@@ -1,7 +1,7 @@
 import { Word } from "@/pages/Dicionario/Dicionario.types";
 
 
-type Reference = {
+export type Reference = {
     id: number;
     reference: string;
     year: number;

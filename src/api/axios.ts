@@ -2,11 +2,12 @@ import { API_BASE_URL } from "@/constraints";
 import axios, { AxiosResponse } from "axios";
 // import AuthContext from "../contexts/AuthContext";
 
-const AxiosClient = () => {
+const AxiosClient = (accessToken?: string | null) => {
     const AxiosInstance = axios.create({
         baseURL: API_BASE_URL,
         headers: {
             "Content-Type": "application/json",
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         },
 
     });
