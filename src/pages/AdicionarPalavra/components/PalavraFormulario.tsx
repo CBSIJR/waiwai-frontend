@@ -4,8 +4,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useGetCategoriesQuery } from "../api/Queries";
 import { useCreateWordMutation } from "../api/Mutations";
 import { fnErrorMessage } from "@/utils";
+import { useLoading } from "@/contexts/LoadingContext";
+import { WordFormData, WordFormProps } from "../AdicionarPalavra.types";
 
 const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
+    const { isLoading, toggleLoading } = useLoading();
     const [form] = Form.useForm();
 
     const [searchParams] = useState({
@@ -20,6 +23,7 @@ const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
 
     const handleSubmit = async (values: WordFormData) => {
         try {
+            toggleLoading(true);
             const response = await mutation.mutateAsync({
                 word: values.word,
                 phonemic: null,
@@ -33,6 +37,8 @@ const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
                 message: "Erro ao cadastrar palavra",
                 description: errMsg,
             });
+        } finally {
+            toggleLoading(false);
         }
     };
 
@@ -94,6 +100,7 @@ const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
 
                 <Form.Item>
                     <Button
+                        loading={isLoading}
                         type="primary"
                         htmlType="submit"
                         className="w-full md:w-auto"

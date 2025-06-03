@@ -2,6 +2,7 @@ import AxiosClient from "@/api/axios";
 import { QUERY_KEYS } from "@/constraints";
 import { Reference } from "@/pages/PalavraDetalhe/PalavraDetalhe.types";
 import { useQuery } from "@tanstack/react-query";
+import { Categorie } from "../AdicionarPalavra.types";
 
 export const useGetCategoriesQuery = (params?: QueryParam) => {
     const axios = AxiosClient();

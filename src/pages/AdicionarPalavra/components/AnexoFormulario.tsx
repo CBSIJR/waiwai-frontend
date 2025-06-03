@@ -1,51 +1,42 @@
 import React, { useState } from "react";
-import { Upload, Button, Card, message, Alert, List } from "antd";
-import {
-    UploadOutlined,
-    DeleteOutlined,
-    FileOutlined,
-} from "@ant-design/icons";
+import { Upload, Button, Card, message, Alert } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import { fnErrorMessage } from "@/utils";
+import { useCreateAttachmentMutation } from "../api/Mutations";
+import { useLoading } from "@/contexts/LoadingContext";
+import { AttachmentFormProps } from "../AdicionarPalavra.types";
 
-const AttachmentForm: React.FC<AttachmentFormProps> = ({
-    wordId,
-    onSuccess,
-}) => {
+const AttachmentForm: React.FC<AttachmentFormProps> = ({ wordId }) => {
     const [fileList, setFileList] = useState<UploadFile[]>([]);
-    const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
     const navigate = useNavigate();
+    const mutation = useCreateAttachmentMutation(wordId);
+    const { toggleLoading, isLoading } = useLoading();
 
     const handleUpload = async (file: File) => {
         if (!wordId) {
             message.warning("Cadastre uma palavra primeiro");
-            return false;
+            return;
         }
 
+        const timestamp = Date.now();
+        const type = file.type.startsWith("image") ? "image" : "audio";
+        const extension = file.name.includes(".")
+            ? file.name.split(".").pop()
+            : "";
+        const newFileName = `${type}_${timestamp}.${extension}`;
+
+        const renamedFile = new File([file], newFileName, { type: file.type });
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", renamedFile);
 
         try {
-            const response = await fetch(`/api/words/${wordId}/attachments/`, {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                message.success(`${file.name} enviado com sucesso!`);
-                setUploadedFiles((prev) => [
-                    ...prev,
-                    { ...data, fileName: file.name },
-                ]);
-                return true;
-            } else {
-                message.error(`Erro ao enviar ${file.name}`);
-                return false;
-            }
+            await mutation.mutateAsync(formData);
         } catch (error) {
-            message.error("Erro na conexão");
-            return false;
+            const errorMessage = fnErrorMessage(error);
+            message.error(errorMessage);
+            throw error;
         }
     };
 
@@ -53,21 +44,19 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({
         name: "file",
         multiple: true,
         fileList,
+        accept: "image/jpeg,image/png,image/webp,audio/mpeg,audio/wav,audio/mp3,audio/ogg",
         disabled: !wordId,
         beforeUpload: (file) => {
-            const isValidSize = file.size / 1024 / 1024 < 10; // 10MB
+            const isValidSize = file.size / 1024 / 1024 < 10;
             if (!isValidSize) {
                 message.error("Arquivo deve ser menor que 10MB");
-                return false;
+                return Upload.LIST_IGNORE;
             }
-            return false; // Prevent automatic upload
+            return false;
         },
-        onChange: (info) => {
-            setFileList(info.fileList);
-        },
-        onRemove: (file) => {
-            setFileList((prev) => prev.filter((item) => item.uid !== file.uid));
-        },
+        onChange: (info) => setFileList(info.fileList),
+        onRemove: (file) =>
+            setFileList((prev) => prev.filter((item) => item.uid !== file.uid)),
     };
 
     const handleManualUpload = async () => {
@@ -76,18 +65,21 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({
             return;
         }
 
-        for (const fileItem of fileList) {
-            if (fileItem.originFileObj) {
-                await handleUpload(fileItem.originFileObj);
-            }
+        try {
+            toggleLoading(true);
+            await Promise.all(
+                fileList
+                    .filter((item) => item.originFileObj)
+                    .map((item) => handleUpload(item.originFileObj!))
+            );
+            message.success("Todos os arquivos foram enviados com sucesso!");
+            navigate(`/dicionario/${wordId}`);
+        } catch {
+            message.error("Erro ao enviar um ou mais arquivos");
+        } finally {
+            setFileList([]);
+            toggleLoading(false);
         }
-
-        setFileList([]);
-    };
-
-    const removeUploadedFile = (index: number) => {
-        setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-        message.success("Arquivo removido da lista");
     };
 
     return (
@@ -101,10 +93,10 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({
                 />
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-2">
                 <Upload.Dragger {...uploadProps} className="w-full">
                     <p className="ant-upload-drag-icon">
-                        <UploadOutlined className="text-4xl text-blue-500" />
+                        <UploadOutlined className="text-4xl text-primary" />
                     </p>
                     <p className="ant-upload-text text-base">
                         Clique ou arraste arquivos para esta área
@@ -115,63 +107,34 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({
                     </p>
                 </Upload.Dragger>
 
-                {fileList.length > 0 && (
-                    <div className="flex flex-col sm:flex-row gap-2">
+                <div className="flex justify-between">
+                    {fileList.length > 0 ? (
+                        <div className="flex flex-col sm:flex-row gap-2">
+                            <Button
+                                loading={isLoading}
+                                type="primary"
+                                onClick={handleManualUpload}
+                                disabled={!wordId}
+                                aria-label="Enviar arquivos"
+                            >
+                                Enviar Arquivos ({fileList.length})
+                            </Button>
+                            <Button
+                                onClick={() => setFileList([])}
+                                aria-label="Limpar lista de arquivos"
+                            >
+                                Limpar Lista
+                            </Button>
+                        </div>
+                    ) : (
                         <Button
-                            type="primary"
-                            onClick={handleManualUpload}
-                            disabled={!wordId}
-                            className="flex-1 sm:flex-none"
+                            onClick={() => navigate(`/dicionario/${wordId}`)}
                         >
-                            Enviar Arquivos ({fileList.length})
+                            Pular etapa
                         </Button>
-                        <Button
-                            onClick={() => setFileList([])}
-                            className="flex-1 sm:flex-none"
-                        >
-                            Limpar Lista
-                        </Button>
-                    </div>
-                )}
-
-                {uploadedFiles.length > 0 && (
-                    <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">
-                            Arquivos Enviados:
-                        </h4>
-                        <List
-                            size="small"
-                            dataSource={uploadedFiles}
-                            renderItem={(item, index) => (
-                                <List.Item
-                                    actions={[
-                                        <Button
-                                            type="text"
-                                            danger
-                                            size="small"
-                                            icon={<DeleteOutlined />}
-                                            onClick={() =>
-                                                removeUploadedFile(index)
-                                            }
-                                        />,
-                                    ]}
-                                    className="px-0"
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <FileOutlined className="text-blue-500" />
-                                        <span className="text-sm">
-                                            {item.fileName}
-                                        </span>
-                                    </div>
-                                </List.Item>
-                            )}
-                        />
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-            <Button onClick={() => navigate(`/dicionario/${wordId}`)}>
-                {fileList.length > 0 ? "Enviar Arquivos" : "Pular etapa"}
-            </Button>
         </Card>
     );
 };

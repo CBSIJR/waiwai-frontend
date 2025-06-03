@@ -39,7 +39,6 @@ const AdicionarPalavraPage: React.FC = () => {
             children: (
                 <AttachmentForm
                     wordId={currentWordId}
-                    onSuccess={handleNextStep}
                 />
             ),
         },

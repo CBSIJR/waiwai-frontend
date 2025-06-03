@@ -17,10 +17,13 @@ import {
 import { useGetReferencesQuery } from "../api/Queries";
 import { useCreateMeaningMutation } from "../api/Mutations";
 import { fnErrorMessage } from "@/utils";
+import { useLoading } from "@/contexts/LoadingContext";
+import { MeaningFormData, MeaningFormProps } from "../AdicionarPalavra.types";
 
 const { TextArea } = Input;
 
 const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
+    const { toggleLoading, isLoading } = useLoading();
     const [form] = Form.useForm();
     const [params] = useState<QueryParam>({
         page: 1,
@@ -38,7 +41,10 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
         }
 
         try {
-          await Promise.all(values.map((meaning) => mutation.mutateAsync(meaning)));
+            toggleLoading(true);
+            await Promise.all(
+                values.map((meaning) => mutation.mutateAsync(meaning))
+            );
             onSuccess();
         } catch (error: unknown) {
             const errMsg = fnErrorMessage(error);
@@ -46,8 +52,9 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                 message: "Erro ao cadastrar significado",
                 description: errMsg,
             });
+        } finally {
+            toggleLoading(false);
         }
-
     };
 
     return (
@@ -123,12 +130,12 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                                                 name={[name, "comment_pt"]}
                                                 label="Comentário (Português)"
                                                 rules={[
-                                                  {
-                                                      required: true,
-                                                      message:
-                                                          "Insira o comentario adicional em português",
-                                                  },
-                                              ]}
+                                                    {
+                                                        required: true,
+                                                        message:
+                                                            "Insira o comentario adicional em português",
+                                                    },
+                                                ]}
                                             >
                                                 <TextArea
                                                     rows={6}
@@ -140,12 +147,12 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                                                 name={[name, "comment_ww"]}
                                                 label="Comentário (Wai Wai)"
                                                 rules={[
-                                                  {
-                                                      required: true,
-                                                      message:
-                                                          "Insira o comentario adicional em Wai Wai",
-                                                  },
-                                              ]}
+                                                    {
+                                                        required: true,
+                                                        message:
+                                                            "Insira o comentario adicional em Wai Wai",
+                                                    },
+                                                ]}
                                             >
                                                 <TextArea
                                                     rows={6}
@@ -209,7 +216,12 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                 </Form.List>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" disabled={!wordId}>
+                    <Button
+                        loading={isLoading}
+                        type="primary"
+                        htmlType="submit"
+                        disabled={!wordId}
+                    >
                         Enviar Significados
                     </Button>
                 </Form.Item>

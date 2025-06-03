@@ -1,33 +1,33 @@
-interface WordFormData {
+export interface WordFormData {
     word: string;
     phonemic: string | null;
     categories: number[];
-  }
-  
-  interface WordFormProps {
-    onSuccess: (wordId: number) => void;
-  }
+}
 
-  interface MeaningFormData {
+export interface WordFormProps {
+    onSuccess: (wordId: number) => void;
+}
+
+export interface MeaningFormData {
     meaning_pt: string;
     meaning_ww: string;
     comment_ww: string;
     comment_pt: string;
     reference: number | null;
-  }
-  
-  interface MeaningFormProps {
+}
+
+export type AttachmentFormData = FormData;
+
+export interface MeaningFormProps {
     wordId: number | null;
     onSuccess: () => void;
-  }
+}
 
-  interface AttachmentFormProps {
+export interface AttachmentFormProps {
     wordId: number | null;
-    onSuccess: () => void;
-  }
+}
 
-  interface Categorie {
+export interface Categorie {
     id: number;
     category: string;
-  }
-  
+}

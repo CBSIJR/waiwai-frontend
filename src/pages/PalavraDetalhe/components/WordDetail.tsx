@@ -71,9 +71,9 @@ const WordDetail: React.FC = () => {
                         <div className="flex items-center gap-2">
                             <Button
                                 type="text"
-                                icon={<ArrowLeftOutlined />}
-                                onClick={() => window.history.back()}
-                                className="flex items-center"
+                                icon={<ArrowLeftOutlined color="white" />}
+                                onClick={() => navigate(-1)}
+                                className="flex items-center text-white"
                             />
 
                             <h1 className="text-3xl md:text-4xl font-bold">
