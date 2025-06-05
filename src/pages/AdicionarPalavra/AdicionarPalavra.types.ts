@@ -10,10 +10,10 @@ export interface WordFormProps {
 
 export interface MeaningFormData {
     meaning_pt: string;
-    meaning_ww: string;
-    comment_ww: string;
-    comment_pt: string;
-    reference: number | null;
+    meaning_ww: string | null;
+    comment_ww: string | null;
+    comment_pt: string | null;
+    reference: number;
 }
 
 export type AttachmentFormData = FormData;

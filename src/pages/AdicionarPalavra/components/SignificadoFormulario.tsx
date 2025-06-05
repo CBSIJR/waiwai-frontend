@@ -174,7 +174,7 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                                         >
                                             <Select
                                                 placeholder="Selecione a referência"
-                                                className="max-w-lg"
+                                                className="w-full"
                                                 options={references?.map(
                                                     (item) => ({
                                                         value: item.id,
@@ -183,14 +183,14 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                                                 )}
                                             />
                                         </Form.Item>
-                                        <div className="flex justify-end">
+                                        <div className="md:flex justify-end">
                                             {fields.length === index + 1 && (
                                                 <Form.Item>
                                                     <Button
                                                         onClick={() => add()}
                                                         icon={<PlusOutlined />}
                                                     >
-                                                        Adicionar Significado
+                                                        Adicionar
                                                     </Button>
                                                 </Form.Item>
                                             )}
@@ -204,7 +204,7 @@ const MeaningForm: React.FC<MeaningFormProps> = ({ wordId, onSuccess }) => {
                                                         <MinusCircleOutlined />
                                                     }
                                                 >
-                                                    Remover significado
+                                                    Remover
                                                 </Button>
                                             )}
                                         </div>

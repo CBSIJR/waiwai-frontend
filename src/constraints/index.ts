@@ -54,4 +54,8 @@ export const QUERY_KEYS = {
     REFERENCES: "references",
 };
 
+export const themeColors = {
+    colorPrimary: "#A63429",
+};
+
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

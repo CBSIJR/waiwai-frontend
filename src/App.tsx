@@ -1,4 +1,3 @@
-// import AuthProvider from './provider/authProvider';
 import { ThemeContext } from "@/contexts";
 import { useLocalStorage, useReadFromLocalStorage } from "@/hooks";
 import Routes from "@/routes";
@@ -8,6 +7,7 @@ import { EnumTheme } from "./types/themeTypes";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { ConfigProvider } from "antd";
 import { LoadingProvider } from "./contexts/LoadingProvider";
+import { themeColors } from "./constraints";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -26,7 +26,7 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-            <ConfigProvider theme={{ token: { colorPrimary: "#A63429" } }}>
+            <ConfigProvider theme={{ token: themeColors }}>
                 <LoadingProvider>
                     <QueryClientProvider client={queryClient}>
                         <AuthProvider>

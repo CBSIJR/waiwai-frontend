@@ -11,6 +11,7 @@ export type Reference = {
 
 export type Attachment = {
     id: number;
+    filename: string;
     url: string;
     content_type: string;
     created_at: Date;
