@@ -1,11 +1,15 @@
 import { API_BASE_URL } from "@/constraints";
+import { AuthContext } from "@/contexts/AuthContext";
 import axios, { AxiosResponse } from "axios";
+import { useContext } from "react";
 
-const AxiosClient = (accessToken?: string | null) => {
+const AxiosClient = () => {
+        const authContext = useContext(AuthContext);
+    
+
     const AxiosInstance = axios.create({
         baseURL: API_BASE_URL,
         headers: {
-            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         },
     });
 
@@ -16,8 +20,8 @@ const AxiosClient = (accessToken?: string | null) => {
             config.headers['Content-Type'] = 'application/json';
         }
 
-        if (accessToken && !config.headers['Authorization']) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        if (authContext?.accessToken && !config.headers['Authorization']) {
+            config.headers['Authorization'] = `Bearer ${authContext.accessToken}`;
         }
 
         return config;

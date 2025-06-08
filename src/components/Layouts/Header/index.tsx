@@ -38,6 +38,22 @@ const HeaderLayout: React.FC = () => {
 
     const menuItems = generateAntdMenuItems(pathConstants);
 
+    const useIsMobile = () => {
+        const [isMobile, setIsMobile] = useState(false);
+
+        useEffect(() => {
+            const handleResize = () => {
+                setIsMobile(window.innerWidth < 768);
+            };
+
+            handleResize();
+            window.addEventListener("resize", handleResize);
+            return () => window.removeEventListener("resize", handleResize);
+        }, []);
+
+        return isMobile;
+    };
+
     useEffect(() => {
         window.addEventListener("scroll", handleStickyNavbar);
         return () => {
@@ -65,14 +81,16 @@ const HeaderLayout: React.FC = () => {
                     />
                 </Link>
 
-                <div className="hidden md:flex items-center gap-4">
-                    <Menu
-                        mode="horizontal"
-                        className="bg-transparent"
-                        selectedKeys={[location.pathname]}
-                        items={menuItems}
-                    />
-                </div>
+                {!useIsMobile() && (
+                    <div className="items-center gap-4">
+                        <Menu
+                            mode="horizontal"
+                            className="bg-transparent"
+                            selectedKeys={[location.pathname]}
+                            items={menuItems}
+                        />
+                    </div>
+                )}
 
                 <div className="md:hidden">
                     <Button

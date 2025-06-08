@@ -3,11 +3,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useGetWordsListQuery } from "../api/Queries";
 import WordItem from "./WordItem";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const { Search } = Input;
 
 const WordsList: React.FC = () => {
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
     const [searchParams, setSearchParams] = useState({
         q: "",
@@ -82,14 +84,18 @@ const WordsList: React.FC = () => {
                     className="w-full sm:max-w-md rounded-lg shadow-sm border border-stroke focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition"
                     enterButton
                 />
-                <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => navigate("/dicionario/adicionar-palavra")}
-                    className="bg-primary text-white hover:bg-primary-dark transition w-full sm:w-auto rounded-lg shadow-md px-6"
-                >
-                    + Adicionar palavra
-                </Button>
+                {isAuthenticated && (
+                    <Button
+                        size="large"
+                        type="primary"
+                        onClick={() =>
+                            navigate("/dicionario/adicionar-palavra")
+                        }
+                        className="bg-primary text-white hover:bg-primary-dark transition w-full sm:w-auto rounded-lg shadow-md px-6"
+                    >
+                        + Adicionar palavra
+                    </Button>
+                )}
             </div>
 
             {isLoading ? (
