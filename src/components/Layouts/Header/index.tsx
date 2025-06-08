@@ -22,7 +22,7 @@ const HeaderLayout: React.FC = () => {
         data: typeof pathConstants
     ): MenuProps["items"] => {
         const items: MenuProps["items"] = Object.entries(data)
-            .filter(([_, value]) => value.navbar)
+            .filter(([, value]) => value.navbar)
             .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
             .map(([, value]) => ({
                 key: value.path,

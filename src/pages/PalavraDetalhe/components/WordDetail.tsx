@@ -10,7 +10,7 @@ import {
     GlobalOutlined,
     TagOutlined,
 } from "@ant-design/icons";
-import { Button, Empty, Spin, Typography, Card, Divider, Tag } from "antd";
+import { Button, Empty, Spin, Typography, Divider, Tag } from "antd";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AttachmentsSection from "./AttachmentsSection";
