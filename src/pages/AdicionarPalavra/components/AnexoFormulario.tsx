@@ -44,7 +44,7 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({ wordId }) => {
         name: "file",
         multiple: true,
         fileList,
-        accept: "image/jpeg,image/png,image/webp,audio/mpeg,audio/wav,audio/mp3,audio/ogg",
+        accept: "image/jpeg,image/png,image/webp,audio/wav,audio/mp3,audio/ogg",
         disabled: !wordId,
         beforeUpload: (file) => {
             const isValidSize = file.size / 1024 / 1024 < 10;

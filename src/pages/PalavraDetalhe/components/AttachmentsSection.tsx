@@ -1,11 +1,10 @@
 import { API_BASE_URL } from "@/constraints";
-import { Image, Card, Empty, Button } from "antd";
+import { Card, Button } from "antd";
 import {
     PictureOutlined,
     SoundOutlined,
     FileOutlined,
     PaperClipOutlined,
-    DownloadOutlined,
 } from "@ant-design/icons";
 import { Attachment } from "../PalavraDetalhe.types";
 import AudioPlayer from "./AudioPlayer";
