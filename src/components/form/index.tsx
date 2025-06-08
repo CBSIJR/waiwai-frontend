@@ -1,3 +1,4 @@
+import { Card } from "antd";
 import InputField from "../inputs/inputField";
 
 interface InputFieldProps {
@@ -33,41 +34,39 @@ export default function Form({
     success,
     topContent,
     bottomContent,
-    buttonLabel
+    buttonLabel,
 }: FormProps) {
     return (
-        <div className="flex items-center justify-center min-h-screen mt-8">
-            <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
-                {topContent}
+        <Card className="w-[500px] shadow-md p-2 my-8 mx-4 md:mx-0">
+            {topContent}
 
-                {error && (
-                    <div className="bg-red-100 border border-red-400 text-primary px-4 py-3 rounded mb-4">
-                        {error}
-                    </div>
-                )}
-
-                {success.boolean && (
-                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        {success.message}
-                    </div>
-                )}
-
-                <div className="flex flex-col gap-4">
-                    {fields.map((field, index) => (
-                        <InputField key={index} {...field} />
-                    ))}
-
-                    <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className={`w-full py-2 px-4 mt-2 ${loading ? "bg-gray-400" : "bg-primary hover:bg-red-800"} text-white font-medium rounded-md transition duration-200`}
-                    >
-                        {loading ? "Processando..." : buttonLabel}
-                    </button>
-
-                    {bottomContent}
+            {error && (
+                <div className="bg-red-100 border border-red-400 text-primary px-4 py-3 rounded mb-4">
+                    {error}
                 </div>
+            )}
+
+            {success.boolean && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {success.message}
+                </div>
+            )}
+
+            <div className="flex flex-col gap-4">
+                {fields.map((field, index) => (
+                    <InputField key={index} {...field} />
+                ))}
+
+                <button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className={`w-full py-2 px-4 mt-2 ${loading ? "bg-gray-400" : "bg-primary hover:bg-red-800"} text-white font-medium rounded-md transition duration-200`}
+                >
+                    {loading ? "Processando..." : buttonLabel}
+                </button>
+
+                {bottomContent}
             </div>
-        </div>
+        </Card>
     );
 }

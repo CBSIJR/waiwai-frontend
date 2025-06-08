@@ -1,4 +1,3 @@
-// import AuthProvider from './provider/authProvider';
 import { ThemeContext } from "@/contexts";
 import { useLocalStorage, useReadFromLocalStorage } from "@/hooks";
 import Routes from "@/routes";
@@ -6,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { EnumTheme } from "./types/themeTypes";
 import { AuthProvider } from "./contexts/AuthProvider";
+import { ConfigProvider } from "antd";
+import { LoadingProvider } from "./contexts/LoadingProvider";
+import { themeColors } from "./constraints";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -24,11 +26,15 @@ function App() {
         <ThemeContext.Provider
             value={{ themeMode: theme, toggleThemeMode: toggleThemeMode }}
         >
-            <QueryClientProvider client={queryClient}>
-                <AuthProvider>
-                    <Routes />
-                </AuthProvider>
-            </QueryClientProvider>
+            <ConfigProvider theme={{ token: themeColors }}>
+                <LoadingProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <AuthProvider>
+                            <Routes />
+                        </AuthProvider>
+                    </QueryClientProvider>
+                </LoadingProvider>
+            </ConfigProvider>
         </ThemeContext.Provider>
     );
 }

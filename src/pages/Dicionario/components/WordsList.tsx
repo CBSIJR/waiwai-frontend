@@ -1,11 +1,14 @@
-import { Empty, Input, Pagination, Spin } from "antd";
+import { Button, Empty, Input, Pagination, Spin } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useGetWordsListQuery } from "../api/Queries";
 import WordItem from "./WordItem";
+import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 
 const WordsList: React.FC = () => {
+    const navigate = useNavigate();
+
     const [searchParams, setSearchParams] = useState({
         q: "",
         page: 1,
@@ -14,7 +17,8 @@ const WordsList: React.FC = () => {
 
     const [searchValue, setSearchValue] = useState("");
 
-    const { data, refetch, isLoading, isError, error } = useGetWordsListQuery(searchParams);
+    const { data, refetch, isLoading, isError, error } =
+        useGetWordsListQuery(searchParams);
 
     const handlePageChange = (page: number, pageSize: number) => {
         setSearchParams((prev) => ({
@@ -44,73 +48,95 @@ const WordsList: React.FC = () => {
 
     if (isError) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 bg-gray-light rounded-lg">
-                <h3 className="text-xl font-bold text-primary mb-2">
+            <div className="flex flex-col items-center justify-center py-16 px-6 max-w-xl mx-auto text-center rounded-xl border border-red-100 bg-red-50 shadow-sm">
+                <h3 className="text-2xl font-semibold text-red-600 mb-3">
                     Erro ao carregar palavras
                 </h3>
-                <p className="text-body-color">
+                <p className="text-base text-red-700 mb-6 max-w-xs">
                     {error instanceof Error
                         ? error.message
                         : "Ocorreu um erro desconhecido!"}
                 </p>
-                <button
+                <Button
                     onClick={() => refetch()}
-                    className="mt-4 px-6 py-2 bg-primary text-white rounded-md hover:opacity-90 transition-opacity"
+                    type="primary"
+                    danger
+                    className="px-6 py-2 text-white rounded-md shadow-md hover:brightness-90 transition"
                 >
                     Tentar novamente
-                </button>
+                </Button>
             </div>
         );
     }
 
     return (
-        <div className="container mx-auto py-6 h-full w-full">
-            <div className="mb-6">
+        <div className="w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 mx-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8">
                 <Search
-                    placeholder="Buscar palavras..."
+                    placeholder="Digite para buscar uma palavra..."
                     allowClear
                     size="large"
                     value={searchValue}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
+                    onChange={(e) => setSearchValue(e.target.value)}
                     onSearch={handleSearch}
-                    className="max-w-xl"
+                    className="w-full sm:max-w-md rounded-lg shadow-sm border border-stroke focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition"
+                    enterButton
                 />
+                <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => navigate("/dicionario/adicionar-palavra")}
+                    className="bg-primary text-white hover:bg-primary-dark transition w-full sm:w-auto rounded-lg shadow-md px-6"
+                >
+                    + Adicionar palavra
+                </Button>
             </div>
 
             {isLoading ? (
-                <div className="flex justify-center items-center h-screen py-12">
+                <div className="flex justify-center items-center min-h-[200px]">
                     <Spin size="large" />
                 </div>
             ) : data?.data?.length ? (
                 <>
-                    <div className="mb-6">
-                        <p className="text-body-color">
-                            Mostrando {data.data.length} de {data.total_items}{" "}
-                            palavras
-                        </p>
+                    <div className="mb-6 text-sm text-body-color/80">
+                        <span className="font-semibold text-dark">
+                            {data.data.length}
+                        </span>{" "}
+                        de{" "}
+                        <span className="font-semibold text-dark">
+                            {data.total_items}
+                        </span>{" "}
+                        palavras encontradas
                     </div>
 
-                    <div className="space-y-4">
+                    {/* Lista */}
+                    <div className="grid">
                         {data.data.map((word) => (
                             <WordItem key={word.id} word={word} />
                         ))}
                     </div>
 
-                    <div className="mt-8 flex w-full justify-center">
+                    <div className="mt-10 flex justify-center">
                         <Pagination
                             current={searchParams.page}
                             pageSize={searchParams.page_size}
                             total={data.total_items}
                             onChange={handlePageChange}
                             showSizeChanger={false}
+                            className="rounded-lg"
                         />
                     </div>
                 </>
             ) : (
-                <Empty
-                    description="Nenhuma palavra encontrada!"
-                    className="w-full py-12 h-screen"
-                />
+                <div className="py-24 flex justify-center items-center">
+                    <Empty
+                        description={
+                            <span className="text-body-color/70 text-lg font-medium">
+                                Nenhuma palavra encontrada!
+                            </span>
+                        }
+                    />
+                </div>
             )}
         </div>
     );

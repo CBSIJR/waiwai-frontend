@@ -1,7 +1,7 @@
 import { Word } from "@/pages/Dicionario/Dicionario.types";
 
 
-type Reference = {
+export type Reference = {
     id: number;
     reference: string;
     year: number;
@@ -11,6 +11,7 @@ type Reference = {
 
 export type Attachment = {
     id: number;
+    filename: string;
     url: string;
     content_type: string;
     created_at: Date;

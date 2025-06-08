@@ -1,16 +1,19 @@
 import { Outlet } from "react-router-dom";
-import Header from "@/components/Layouts/Header";
-import Footer from "@/components/Layouts/Footer";
+import { Layout } from "antd";
+import FooterLayout from "./Footer";
+import HeaderLayout from "./Header";
+
+const { Content } = Layout;
 
 const MainLayout: React.FC = () => {
     return (
-        <>
-            <Header />
-            <main>
+        <Layout className="min-h-screen">
+            <HeaderLayout />
+            <Content className="flex flex-col mt-16">
                 <Outlet />
-            </main>
-            <Footer />
-        </>
+            </Content>
+            <FooterLayout />
+        </Layout>
     );
 };
 
