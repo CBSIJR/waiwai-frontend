@@ -6,7 +6,7 @@ const Motivation: React.FC = () => (
         titleTopic="Quais foram as motivações para o projeto?"
         bgColor=""
     >
-        <p className="text-center px-6 text-lg text-slate-600">
+        <p className="text-justify px-4 sm:px-6 md:px-12 text-base sm:text-lg text-slate-600 leading-relaxed">
             Os povos indígenas falantes da língua Wai Wai (FOCK, 1963), grupo
             étnico que agrupa diferentes etnias do norte do Pará e leste de
             Roraima, são atendidos pelas políticas de ações afirmativas da

@@ -7,6 +7,10 @@ declare global {
         page_size?: number;
     }
 
+    interface ApiCreateResponse {
+        id: number;
+    }
+
     interface ApiResponse<R> {
         data: R;
     }

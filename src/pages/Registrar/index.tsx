@@ -87,25 +87,27 @@ const Registrar = () => {
         setLoading(true);
         setError("");
 
-        mutation.mutate({
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            email: formData.email,
-            password: formData.password,
-        }, {
-            onSuccess: () => {
-                setSuccess(true);
+        mutation.mutate(
+            {
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                email: formData.email,
+                password: formData.password,
             },
-            onError: (err: unknown) => {
-                const errMsg = fnErrorMessage(err);
-                setError(errMsg);
-                setSuccess(false);
-            },
-            onSettled: () => {
-                setLoading(false);
-            },
-        });
-
+            {
+                onSuccess: () => {
+                    setSuccess(true);
+                },
+                onError: (err: unknown) => {
+                    const errMsg = fnErrorMessage(err);
+                    setError(errMsg);
+                    setSuccess(false);
+                },
+                onSettled: () => {
+                    setLoading(false);
+                },
+            }
+        );
     };
 
     const handleValidityChange = (isValid: boolean) => {
@@ -162,38 +164,40 @@ const Registrar = () => {
     ];
 
     return (
-        <Form
-            fields={fields}
-            handleSubmit={handleSubmit}
-            loading={loading}
-            buttonLabel="Registrar"
-            error={error}
-            success={{
-                boolean: success,
-                message: "Cadastro realizado com sucesso!",
-            }}
-            topContent={
-                <>
-                    <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-                        Crie sua conta
-                    </h1>
-                    <p className="text-sm text-center text-gray-500 mb-6">
-                        Cadastre-se com seu e-mail
-                    </p>
-                </>
-            }
-            bottomContent={
-                <div className="justify-center text-center text-sm flex gap-1">
-                    Já tem uma conta?
-                    <Link
-                        to="/entrar"
-                        className="text-primary hover:text-red-800 font-medium"
-                    >
-                        Entrar
-                    </Link>
-                </div>
-            }
-        />
+        <div className="flex flex-1 justify-center items-center">
+            <Form
+                fields={fields}
+                handleSubmit={handleSubmit}
+                loading={loading}
+                buttonLabel="Registrar"
+                error={error}
+                success={{
+                    boolean: success,
+                    message: "Cadastro realizado com sucesso!",
+                }}
+                topContent={
+                    <>
+                        <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
+                            Crie sua conta
+                        </h1>
+                        <p className="text-sm text-center text-gray-500 mb-6">
+                            Cadastre-se com seu e-mail
+                        </p>
+                    </>
+                }
+                bottomContent={
+                    <div className="justify-center text-center text-sm flex gap-1">
+                        Já tem uma conta?
+                        <Link
+                            to="/entrar"
+                            className="text-primary hover:text-red-800 font-medium"
+                        >
+                            Entrar
+                        </Link>
+                    </div>
+                }
+            />
+        </div>
     );
 };
 
