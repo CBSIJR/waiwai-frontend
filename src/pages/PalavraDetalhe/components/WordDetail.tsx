@@ -104,9 +104,19 @@ const WordDetail: React.FC = () => {
             <div className="bg-primary rounded-t-lg to-primary-dark text-white p-8">
                 <div className="flex items-start gap-4 mb-6">
                     <div className="flex-1 min-w-0">
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 break-words">
-                            {word.word}
-                        </h1>
+                        <div className="flex gap-2 items-center">
+                            <Button
+                                type="text"
+                                size="large"
+                                className="text-white"
+                                onClick={handleGoBack}
+                            >
+                                <ArrowLeftOutlined />
+                            </Button>
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 break-words">
+                                {word.word}
+                            </h1>
+                        </div>
 
                         <div className="flex items-center gap-2 mb-4">
                             <TagOutlined className="text-white/80" />
@@ -239,7 +249,7 @@ const WordDetail: React.FC = () => {
                 )}
 
                 {attachments && (
-                        <AttachmentsSection attachments={attachments} />
+                    <AttachmentsSection attachments={attachments} />
                 )}
 
                 <Divider className="my-8" />
