@@ -2,7 +2,7 @@
 name: "🚀 Performance"
 about: "Otimizações de velocidade e uso de recursos"
 title: "[PERF] "
-labels: [performance, P2 – Média]
+labels: [performance,frontend, P2 – Média]
 assignees: []
 ---
 **Contexto**

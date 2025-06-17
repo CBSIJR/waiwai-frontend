@@ -2,7 +2,7 @@
 name: "🐞 Bug report"
 about: "Use este template para reportar erros ou comportamentos inesperados"
 title: "[BUG] "
-labels: [bug, P0 – Crítico]
+labels: [bug,frontend, P0 – Crítico]
 assignees: []
 ---
 **Descrição**
