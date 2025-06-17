@@ -2,7 +2,7 @@
 name: "🔒 Security"
 about: "Relato de falhas de segurança ou vulnerabilidades"
 title: "[SECURITY] "
-labels: [security, P0 – Crítico]
+labels: [security,frontend, P0 – Crítico]
 assignees: []
 ---
 **Descrição**

@@ -2,7 +2,7 @@
 name: "📖 Documentation"
 about: "Atualizações ou adição de conteúdo na documentação"
 title: "[DOC] "
-labels: [documentation, P3 – Baixa]
+labels: [documentation,frontend, P3 – Baixa]
 assignees: []
 ---
 **Seção afetada**

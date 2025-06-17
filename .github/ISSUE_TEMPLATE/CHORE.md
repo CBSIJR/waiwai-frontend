@@ -2,7 +2,7 @@
 name: "🔧 Chore"
 about: "Tarefas de manutenção sem mudança de comportamento (build, deps, configs)"
 title: "[CHORE] "
-labels: [chore, P3 – Baixa]
+labels: [chore,frontend, P3 – Baixa]
 assignees: []
 ---
 **Descrição**
