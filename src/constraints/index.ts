@@ -26,6 +26,13 @@ export const pathConstants: RoutesType = {
         navbar: true,
         priority: 2,
     },
+    gerenciar: {
+        path: "/gerenciar",
+        text: "Gerenciar",
+        newTab: false,
+        navbar: true,
+        priority: 3,
+    },
     entrar: {
         path: "/entrar",
         text: "Entrar",

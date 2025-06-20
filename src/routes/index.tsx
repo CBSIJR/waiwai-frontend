@@ -4,6 +4,7 @@ import {
     AdicionarPalavra,
     Dicionario,
     Entrar,
+    Gerenciar,
     Inicio,
     PalavraDetalhe,
     Registrar,
@@ -22,6 +23,10 @@ export default function Routes() {
                 {
                     path: pathConstants.dicionario.path,
                     element: <Dicionario />,
+                },
+                {
+                    path: pathConstants.gerenciar.path,
+                    element: <Gerenciar />,
                 },
                 {
                     path: `${pathConstants.dicionario.path}/:id`,
