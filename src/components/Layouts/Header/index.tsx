@@ -73,8 +73,8 @@ const HeaderLayout: React.FC = () => {
                     />
                 </Link>
 
-                {!isMobile && (
-                    <div className="items-center gap-4">
+                {!useIsMobile() && (
+                    <div className="w-64 items-center">
                         <Menu
                             mode="horizontal"
                             className="bg-transparent"
