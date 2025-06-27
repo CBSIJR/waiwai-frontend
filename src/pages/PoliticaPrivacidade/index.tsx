@@ -16,6 +16,7 @@ const PoliticaPrivacidade: React.FC = () => {
         {/* Sidebar */}
         <aside className="w-1/4 hidden md:block">
           <Sidebar />
+          
         </aside>
 
         {/* Body Sections*/}
