@@ -1,4 +1,3 @@
-// src/assets/icons/CookieIcon.tsx
 import React from "react";
 
 const CookieIcon: React.FC = (): JSX.Element => (

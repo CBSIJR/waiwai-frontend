@@ -3,7 +3,7 @@
 import type React from "react"
 import { Typography } from "antd"
 
-const { Title, Paragraph, Text } = Typography
+const { Title } = Typography
 
 interface SectionProps {
   id: string
@@ -15,8 +15,13 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({ id, title, children, className = "mb-12" }) => {
   return (
     <section id={id} className={className}>
-      <Title level={2}>{title}</Title>
-      {children}
+      {/* Adicionar padding-top para compensar o header fixo */}
+      <div className="pt-20 -mt-20">
+        {" "}
+        {/* Offset para header fixo */}
+        <Title level={2}>{title}</Title>
+        {children}
+      </div>
     </section>
   )
 }
@@ -24,8 +29,8 @@ const Section: React.FC<SectionProps> = ({ id, title, children, className = "mb-
 // Componente para definições (usado na seção 1)
 export const DefinitionItem: React.FC<{ term: string; definition: string }> = ({ term, definition }) => (
   <div className="mb-4">
-    <Text strong>{term}:</Text>
-    <Paragraph>{definition}</Paragraph>
+    <Typography.Text strong>{term}:</Typography.Text>
+    <Typography.Paragraph>{definition}</Typography.Paragraph>
   </div>
 )
 
@@ -36,9 +41,9 @@ export const PrincipleItem: React.FC<{ number: string; title: string; descriptio
   description,
 }) => (
   <li>
-    <Text strong>
+    <Typography.Text strong>
       {number}. {title}:
-    </Text>{" "}
+    </Typography.Text>{" "}
     {description}
   </li>
 )
@@ -46,8 +51,8 @@ export const PrincipleItem: React.FC<{ number: string; title: string; descriptio
 // Componente para direitos do titular (usado na seção 6)
 export const RightItem: React.FC<{ title: string; description: string }> = ({ title, description }) => (
   <div className="mb-4">
-    <Text strong>• {title}:</Text>
-    <Paragraph>{description}</Paragraph>
+    <Typography.Text strong>• {title}:</Typography.Text>
+    <Typography.Paragraph>{description}</Typography.Paragraph>
   </div>
 )
 
@@ -56,13 +61,13 @@ export const ContactInfo: React.FC<{ name?: string; address: string; email: stri
   <div className="bg-gray-50 p-4 rounded-lg">
     {name && (
       <>
-        <Text strong>Nome:</Text> {name}
+        <Typography.Text strong>Nome:</Typography.Text> {name}
         <br />
       </>
     )}
-    <Text strong>Endereço:</Text> {address}
+    <Typography.Text strong>Endereço:</Typography.Text> {address}
     <br />
-    <Text strong>E-mail:</Text> {email}
+    <Typography.Text strong>E-mail:</Typography.Text> {email}
   </div>
 )
 

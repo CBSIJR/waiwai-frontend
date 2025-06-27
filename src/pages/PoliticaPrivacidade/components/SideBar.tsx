@@ -1,23 +1,22 @@
-"use client"
-
-// import { Cookie } from 'lucide-react';
-import type React from "react"
-import { Menu } from "antd"
+import type React from "react";
+import { Menu } from "antd";
 import {
   FileTextOutlined,
-  CheckOutlined,
   UserOutlined,
   DatabaseOutlined,
   LockOutlined,
   SyncOutlined,
   EditOutlined,
-} from "@ant-design/icons"
-
+} from "@ant-design/icons";
 import CookieIcon from "@/components/Icons/CookieIcon";
+import ShieldCheckIcon from "@/components/Icons/ShieldCheckIcon";
 
+interface SidebarProps {
+  onItemClick?: () => void; // Para fechar o drawer no mobile
+  className?: string; // Para permitir estilização adicional
+}
 
-
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<SidebarProps> = ({ onItemClick, className }) => {
   const menuItems = [
     {
       key: "definicoes",
@@ -26,7 +25,7 @@ const Sidebar: React.FC = () => {
     },
     {
       key: "base-legal",
-      icon: <CheckOutlined />,
+      icon: <ShieldCheckIcon />,
       label: "2. Base Legal",
     },
     {
@@ -46,7 +45,7 @@ const Sidebar: React.FC = () => {
     },
     {
       key: "direitos",
-      icon: <CheckOutlined />,
+      icon: <ShieldCheckIcon />,
       label: "6. Direitos do Titular",
     },
     {
@@ -84,29 +83,43 @@ const Sidebar: React.FC = () => {
       icon: <EditOutlined />,
       label: "13. Mudanças na Política",
     },
-  ]
+  ];
 
-  const handleMenuClick = (key: string) => {
-    const element = document.getElementById(key)
+  const handleMenuClick = ({ key }: { key: string }) => {
+    const element = document.getElementById(key);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      // Calcular offset para compensar o header fixo
+      const headerHeight = 80; // altura aproximada do header
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      });
     }
-  }
+
+    // Fechar o drawer no mobile
+    if (onItemClick) {
+      onItemClick();
+    }
+  };
 
   return (
-    <div className="sticky top-6">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800">Navegação</h3>
+    <div className={`${className || ''} sticky top-24 h-fit`}>
+      <h3 className="text-lg font-semibold mb-4 text-gray-800 px-4">Navegação</h3>
       <Menu
-        mode="vertical"
+        mode="inline"
         items={menuItems}
-        onClick={({ key }) => handleMenuClick(key)}
-        className="border-none bg-transparent"
+        onClick={handleMenuClick}
+        className="border-r-0 bg-transparent"
         style={{
           fontSize: "14px",
+          border: "none",
         }}
+        defaultSelectedKeys={[window.location.hash.substring(1) || "definicoes"]}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
