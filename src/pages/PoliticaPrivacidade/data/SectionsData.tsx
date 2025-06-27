@@ -1,5 +1,5 @@
 import { Typography } from "antd"
-import { ContactInfo, DataTable, DefinitionItem, PrincipleItem, RightItem } from "../components/Sections"
+import { ContactInfo, DataTable, DefinitionItem, PrincipleItem, RightItem } from "@/pages/PoliticaPrivacidade/components/Sections"
 
 const { Paragraph, Text } = Typography
 
