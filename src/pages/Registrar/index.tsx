@@ -186,16 +186,31 @@ const Registrar = () => {
                     </>
                 }
                 bottomContent={
-                    <div className="justify-center text-center text-sm flex gap-1">
-                        Já tem uma conta?
-                        <Link
-                            to="/entrar"
-                            className="text-primary hover:text-red-800 font-medium"
-                        >
-                            Entrar
-                        </Link>
-                    </div>
+
+                    <>
+                        <div className="justify-center text-center text-sm flex gap-1">
+                            Já tem uma conta?
+                            <Link
+                                to="/entrar"
+                                className="text-primary hover:text-red-800 font-medium"
+                            >
+                                Entrar
+                            </Link>
+                        </div>
+
+                        {/* Link para Políticas de Privacidade */}
+                        <div style={{ textAlign: "center", marginTop: "16px" }}>
+                            <span style={{ color: "#6b7280", fontSize: "12px" }}>
+                                Ao se registrar, você concorda com nossos{" "}
+                                <Link to="/politica-privacidade" style={{ color: "#d4524a" }}>
+                                    Termos de Uso e Política de Privacidade
+                                </Link>
+                            </span>
+                        </div>
+                    </>
+
                 }
+
             />
         </div>
     );
