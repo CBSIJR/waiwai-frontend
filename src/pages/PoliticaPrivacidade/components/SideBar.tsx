@@ -1,5 +1,6 @@
 "use client"
 
+// import { Cookie } from 'lucide-react';
 import type React from "react"
 import { Menu } from "antd"
 import {
@@ -8,10 +9,13 @@ import {
   UserOutlined,
   DatabaseOutlined,
   LockOutlined,
-  BookOutlined,
   SyncOutlined,
   EditOutlined,
 } from "@ant-design/icons"
+
+import CookieIcon from "@/components/Icons/CookieIcon";
+
+
 
 const Sidebar: React.FC = () => {
   const menuItems = [
@@ -67,7 +71,7 @@ const Sidebar: React.FC = () => {
     },
     {
       key: "cookies",
-      icon: <BookOutlined />,
+      icon: <CookieIcon />,
       label: "11. Cookies",
     },
     {
