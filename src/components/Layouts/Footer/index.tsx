@@ -9,9 +9,9 @@ const FooterLayout: React.FC = () => {
         <div className="md:flex md:flex-row-reverse md:justify-between">
           <ul className="flex flex-wrap items-center mb-6 text-md font-medium md:mb-0 dark:text-gray-400 gap-4 md:gap-6">
             <li>
-              <a href="#aplicativo" className="hover:underline">
+              <Link to="/" className="hover:underline">
                 Sobre nós
-              </a>
+              </Link>
             </li>
             <li>
               <Link to="/politica-privacidade" className="hover:underline">
