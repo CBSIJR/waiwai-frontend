@@ -40,11 +40,11 @@ export default function Routes() {
                     path: pathConstants.registrar.path,
                     element: <Registrar />,
                 },
-                {
+                 {
                     path: pathConstants.politicaprivacidade.path,
-                    element: <PoliticaPrivacidade />,
+                    element: <PoliticaPrivacidade />, 
                 },
-
+           
             ],
         },
     ];
