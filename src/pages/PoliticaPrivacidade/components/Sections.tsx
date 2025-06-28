@@ -2,8 +2,6 @@ import { Typography, Divider } from "antd";
 import Definitions from "./Definitions";
 import Principles from "./Principles";
 
-import { Link } from "react-router-dom";
-
 const { Title, Paragraph, Text } = Typography;
 
 const Sections: React.FC = () => {
