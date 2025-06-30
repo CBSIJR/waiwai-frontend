@@ -4,7 +4,7 @@ import { Reference } from "@/pages/PalavraDetalhe/PalavraDetalhe.types";
 import { useQuery } from "@tanstack/react-query";
 import { Categorie } from "../AdicionarPalavra.types";
 
-export const useGetCategoriesQuery = (params?: QueryParam) => {
+export const useGetCategoriesListQuery = (params?: QueryParam) => {
     const axios = AxiosClient();
 
     let endpoint = `categories/?page=${params?.page}&page_size=${params?.page_size}`;
@@ -16,7 +16,7 @@ export const useGetCategoriesQuery = (params?: QueryParam) => {
         queryFn: async () =>
             await axios
                 .get<ApiResponsePage<Categorie>>(endpoint)
-                .then((res) => res.data.data),
+                .then((res) => res.data),
     });
 };
 

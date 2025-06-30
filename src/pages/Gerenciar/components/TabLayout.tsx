@@ -1,12 +1,15 @@
 import { Tabs, type TabsProps } from "antd";
-import ListarPalavras from "./ListarPalavras";
+import WordsListManage from "./ListarPalavras";
+import CategoryListManage from "./ListarCategorias";
+import RefenceListManage from "./ListarReferencias";
+import UsersListManage from "./ListarUsuarios";
 
 export default function TabLayoutComponent() {
     const viewTabs: TabsProps["items"] = [
         {
             key: "palavras",
             label: "Palavras",
-            children: <ListarPalavras />,
+            children: <WordsListManage />,
         },
     ];
 
@@ -15,22 +18,23 @@ export default function TabLayoutComponent() {
         {
             key: "categorias",
             label: "Categorias",
-            children: <div>Categorias</div>,
+            children: <CategoryListManage />,
         },
         {
             key: "referencias",
             label: "Referências",
-            children: <div>Referências</div>,
+            children: <RefenceListManage />,
         },
         {
             key: "usuarios",
             label: "Usuários",
-            children: <div>Usuários</div>,
+            children: <UsersListManage />,
         },
     ];
 
     return (
         <Tabs
+            className="py-4 md:py-0"
             type="card"
             defaultActiveKey="palavras"
             items={adminTabs}

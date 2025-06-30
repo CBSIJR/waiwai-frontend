@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form, Input, Select, Button, Card, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useGetCategoriesQuery } from "../api/Queries";
 import { useCreateWordMutation } from "../api/Mutations";
 import { fnErrorMessage } from "@/utils";
 import { useLoading } from "@/contexts/LoadingContext";
 import { WordFormData, WordFormProps } from "../AdicionarPalavra.types";
+import { useGetCategoriesListQuery } from "../api/Queries";
 
 const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
     const { isLoading, toggleLoading } = useLoading();
@@ -19,7 +19,7 @@ const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
 
     const mutation = useCreateWordMutation();
 
-    const { data: categories } = useGetCategoriesQuery(searchParams);
+    const { data: categories } = useGetCategoriesListQuery(searchParams);
 
     const handleSubmit = async (values: WordFormData) => {
         try {
@@ -91,7 +91,7 @@ const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
                         placeholder="Selecione as categorias"
                         className="w-full"
                         optionFilterProp="label"
-                        options={categories?.map((item) => ({
+                        options={categories?.data?.map((item) => ({
                             value: item.id,
                             label: item.category,
                         }))}

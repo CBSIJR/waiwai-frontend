@@ -1,7 +1,7 @@
 import TabLayoutComponent from "./components/TabLayout";
 
 const GerenciarPage: React.FC = () => {
-    return <div className="flex flex-col items-center justify-center lg:mt-6">
+    return <div className="flex flex-col items-center justify-center lg:mt-6 max-w-screen-xl w-full mx-auto">
         <TabLayoutComponent/>
     </div>;
 };
