@@ -1,8 +1,8 @@
 import { Tabs, type TabsProps } from "antd";
-import WordsListManage from "./ListarPalavras";
-import CategoryListManage from "./ListarCategorias";
-import RefenceListManage from "./ListarReferencias";
-import UsersListManage from "./ListarUsuarios";
+import WordsListManage from "./Palavras/ListarPalavras";
+import CategoryListManage from "./Categorias/ListarCategorias";
+import RefenceListManage from "./Referencias/ListarReferencias";
+import UsersListManage from "./Usuarios/ListarUsuarios";
 
 export default function TabLayoutComponent() {
     const viewTabs: TabsProps["items"] = [

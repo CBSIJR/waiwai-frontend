@@ -8,7 +8,7 @@ import {
     Card,
     Typography,
 } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { CardListProps } from "./CardList.type";
 
 export function CardList<T>({
@@ -24,6 +24,7 @@ export function CardList<T>({
     isError,
     error,
     refetch,
+    onCreate,
 }: CardListProps<T> & {
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -49,22 +50,33 @@ export function CardList<T>({
     return (
         <div className="mx-2 lg:w-[500px] lg:mx-0">
             <div className="w-full max-w-screen-xl px-4 mx-auto flex flex-col gap-2">
-                {search && (
-                    <Input
-                        placeholder={`Digite para buscar um item...`}
-                        allowClear
-                        size="large"
-                        value={search.searchValue}
-                        onChange={(e) =>
-                            search.setSearch((prev) => ({
-                                ...prev,
-                                q: e.target.value,
-                                page: 1,
-                            }))
-                        }
-                        className="rounded-lg shadow-sm border border-stroke focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition"
-                    />
-                )}
+                <div className="flex gap-2 items-center">
+                    {search && (
+                        <Input
+                            placeholder={`Digite para buscar um item...`}
+                            allowClear
+                            size="large"
+                            value={search.searchValue}
+                            onChange={(e) =>
+                                search.setSearch((prev) => ({
+                                    ...prev,
+                                    q: e.target.value,
+                                    page: 1,
+                                }))
+                            }
+                            className="rounded-lg shadow-sm border border-stroke focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition"
+                        />
+                    )}
+                    {onCreate && (
+                        <Button
+                            onClick={onCreate}
+                            type="primary"
+                            icon={<PlusOutlined />}
+                        >
+                            Adicionar
+                        </Button>
+                    )}
+                </div>
 
                 <Spin spinning={loading}>
                     {data.length === 0 && !loading ? (

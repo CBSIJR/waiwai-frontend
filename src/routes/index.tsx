@@ -1,7 +1,6 @@
 import { MainLayout } from "@/components/Layouts";
 import { pathConstants } from "@/constraints";
 import {
-    AdicionarPalavra,
     Dicionario,
     Entrar,
     Gerenciar,
@@ -32,10 +31,6 @@ export default function Routes() {
                 {
                     path: `${pathConstants.dicionario.path}/:id`,
                     element: <PalavraDetalhe />,
-                },
-                {
-                    path: `${pathConstants.dicionario.path}/adicionar-palavra`,
-                    element: <AdicionarPalavra />,
                 },
                 {
                     path: pathConstants.entrar.path,

@@ -1,3 +1,8 @@
+export interface ModalCriarEditarPalavraProps {
+    open: boolean;
+    onCancel: () => void;
+}
+
 export interface WordFormData {
     word: string;
     phonemic: string | null;

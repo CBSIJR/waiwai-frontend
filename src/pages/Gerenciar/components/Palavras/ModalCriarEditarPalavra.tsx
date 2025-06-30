@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { Steps } from "antd";
+import { Modal, Steps } from "antd";
+import { useState } from "react";
 import {
     FileTextOutlined,
     BookOutlined,
     PaperClipOutlined,
+    CloseOutlined,
 } from "@ant-design/icons";
-import WordForm from "./components/PalavraFormulario";
-import MeaningForm from "./components/SignificadoFormulario";
-import AttachmentForm from "./components/AnexoFormulario";
+import { ModalCriarEditarPalavraProps } from "../../Gerenciar.types";
+import WordForm from "./PalavraFormulario";
+import MeaningForm from "./SignificadoFormulario";
+import AttachmentForm from "./AnexoFormulario";
 
-const AdicionarPalavraPage: React.FC = () => {
+const ModalCriarEditarPalavra = (props: ModalCriarEditarPalavraProps) => {
     const [currentWordId, setCurrentWordId] = useState<number | null>(null);
     const [currentStep, setCurrentStep] = useState(0);
 
@@ -22,7 +24,7 @@ const AdicionarPalavraPage: React.FC = () => {
 
     const steps = [
         {
-            title: "Cadastrar Palavra",
+            title: "Cadastrar",
             description: "Informações básicas da palavra",
             icon: <FileTextOutlined />,
             content: <WordForm onSuccess={handleNextStep} />,
@@ -45,34 +47,37 @@ const AdicionarPalavraPage: React.FC = () => {
             content: <AttachmentForm wordId={currentWordId} />,
         },
     ];
-
     return (
-        <div className="bg-white my-4 mx-auto w-full max-w-3xl rounded-lg shadow-sm px-4 md:px-0">
-            <div className="bg-primary rounded-t-lg px-6 py-8 sm:px-8">
+        <Modal {...props} styles={{
+            content: {
+                padding: 0,
+            }
+        }} centered closeIcon={<CloseOutlined className="text-white"/>} footer={null}>
+            <div className="bg-primary rounded-t-md p-4 sm:px-3">
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                     Adicionar Nova Palavra
                 </h1>
-                <p className="text-blue-100 text-sm sm:text-base">
+                <p className="text-white text-sm sm:text-base">
                     Complete as etapas para cadastrar uma palavra no dicionário
                 </p>
             </div>
 
-            <div className="p-6 sm:p-8">
+            <div className="p-6 sm:px-3">
                 <Steps
                     current={currentStep}
+                    direction="vertical"
                     items={steps.map((step) => ({
                         title: step.title,
                         description: step.description,
-                        icon: step.icon,
                     }))}
-                    size="default"
-                    className="mb-8"
+                    size="small"
+                    className="mb-4"
                 />
 
                 <div className="space-y-6">{steps[currentStep].content}</div>
             </div>
-        </div>
+        </Modal>
     );
 };
 
-export default AdicionarPalavraPage;
+export default ModalCriarEditarPalavra;
