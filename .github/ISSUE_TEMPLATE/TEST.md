@@ -2,7 +2,7 @@
 name: "🧪 Test"
 about: "Adicionar ou corrigir testes automatizados"
 title: "[TEST] "
-labels: [test, P2 – Média]
+labels: [test,frontend, P2 – Média]
 assignees: []
 ---
 **Área**

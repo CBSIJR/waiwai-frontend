@@ -2,7 +2,7 @@
 name: "🛠️ Improvement"
 about: "Ajustes ou refinamentos em funcionalidades já existentes"
 title: "[IMPROVE] "
-labels: [enhancement, P2 – Média]
+labels: [enhancement,frontend, P2 – Média]
 assignees: []
 ---
 **Componente / Módulo**

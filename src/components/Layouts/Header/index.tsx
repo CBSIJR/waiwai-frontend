@@ -4,6 +4,10 @@ import { Button, Drawer, Layout, Menu, MenuProps } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Grid} from 'antd';
+
+
+const { useBreakpoint } = Grid;
 
 const { Header } = Layout;
 
@@ -38,23 +42,11 @@ const HeaderLayout: React.FC = () => {
 
     const menuItems = generateAntdMenuItems(pathConstants);
 
-    const useIsMobile = () => {
-        const [isMobile, setIsMobile] = useState(false);
 
-        useEffect(() => {
-            const handleResize = () => {
-                setIsMobile(window.innerWidth < 768);
-            };
+  const screens = useBreakpoint();
+  const isMobile = !screens.md
 
-            handleResize();
-            window.addEventListener("resize", handleResize);
-            return () => window.removeEventListener("resize", handleResize);
-        }, []);
-
-        return isMobile;
-    };
-
-    useEffect(() => {
+  useEffect(() => {
         window.addEventListener("scroll", handleStickyNavbar);
         return () => {
             window.removeEventListener("scroll", handleStickyNavbar);
@@ -81,8 +73,8 @@ const HeaderLayout: React.FC = () => {
                     />
                 </Link>
 
-                {!useIsMobile() && (
-                    <div className="w-64 items-center">
+                {!isMobile && (
+                    <div className="items-center gap-4">
                         <Menu
                             mode="horizontal"
                             className="bg-transparent"
