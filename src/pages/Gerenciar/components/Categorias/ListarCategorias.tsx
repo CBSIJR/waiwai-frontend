@@ -1,9 +1,8 @@
 import { CardList } from "@/components/List/CardList";
 import { CardDetails } from "@/components/List/CardList/CardList.type";
-import { Categorie } from "@/pages/AdicionarPalavra/AdicionarPalavra.types";
-import { useGetCategoriesListQuery } from "@/pages/AdicionarPalavra/api/Queries";
-import { Card, Form, Input, Modal } from "antd";
 import { useState } from "react";
+import { useGetCategoriesListQuery } from "../../api/Queries";
+import { Categorie } from "../../Gerenciar.types";
 
 const CategoryListManage: React.FC = () => {
     const [searchParams, setSearchParams] = useState<QueryParam>({
@@ -17,8 +16,8 @@ const CategoryListManage: React.FC = () => {
 
     const cardDetails = (item: Categorie): CardDetails<Categorie> => ({
         title: item.category,
-        onDelete: (item: Categorie) => alert("Funcionalidade não implementada"),
-        onEdit: (item: Categorie) => alert("Funcionalidade não implementada"),
+        onDelete: () => alert("Funcionalidade não implementada"),
+        onEdit: () => alert("Funcionalidade não implementada"),
     });
 
     return (

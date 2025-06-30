@@ -14,11 +14,11 @@ import {
     MinusCircleOutlined,
     PlusOutlined,
 } from "@ant-design/icons";
-import { useGetReferencesQuery } from "../api/Queries";
-import { useCreateMeaningMutation } from "../api/Mutations";
 import { fnErrorMessage } from "@/utils";
 import { useLoading } from "@/contexts/LoadingContext";
-import { MeaningFormData, MeaningFormProps } from "../AdicionarPalavra.types";
+import { useCreateMeaningMutation } from "../../api/Mutations";
+import { useGetReferencesQuery } from "../../api/Queries";
+import { MeaningFormProps, MeaningFormData } from "../../Gerenciar.types";
 
 const { TextArea } = Input;
 

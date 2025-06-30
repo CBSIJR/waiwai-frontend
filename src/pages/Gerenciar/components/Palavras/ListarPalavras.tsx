@@ -4,6 +4,7 @@ import { useGetWordsListQuery } from "@/pages/Dicionario/api/Queries";
 import { Word } from "@/pages/Dicionario/Dicionario.types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ModalCriarEditarPalavra from "./ModalCriarEditarPalavra";
 
 const WordsListManage: React.FC = () => {
     const navigate = useNavigate();
@@ -12,6 +13,8 @@ const WordsListManage: React.FC = () => {
         page: 1,
         page_size: 10,
     });
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     const { data, isLoading, error, isError, refetch } =
         useGetWordsListQuery(searchParams);
@@ -41,29 +44,36 @@ const WordsListManage: React.FC = () => {
     });
 
     return (
-        <div className="w-full">
-            <CardList
-                data={data?.data || []}
-                error={error}
-                isError={isError}
-                refetch={refetch}
-                total={data?.total_items || 0}
-                currentPage={searchParams.page || 1}
-                pageSize={searchParams.page_size}
-                loading={isLoading}
-                emptyText="Nenhuma palavra encontrada"
-                onPageChange={(page, pageSize) =>
-                    setSearchParams({ page, page_size: pageSize })
-                }
-                search={{
-                    searchValue: searchParams.q,
-                    setSearch: setSearchParams,
-                }}
-                cardDetails={cardDetails}
-                onDelete={() => console.log("delete")}
-                onEdit={() => console.log("edit")}
+        <>
+            <div className="w-full">
+                <CardList
+                    data={data?.data || []}
+                    error={error}
+                    isError={isError}
+                    refetch={refetch}
+                    total={data?.total_items || 0}
+                    currentPage={searchParams.page || 1}
+                    pageSize={searchParams.page_size}
+                    loading={isLoading}
+                    emptyText="Nenhuma palavra encontrada"
+                    onPageChange={(page, pageSize) =>
+                        setSearchParams({ page, page_size: pageSize })
+                    }
+                    search={{
+                        searchValue: searchParams.q,
+                        setSearch: setSearchParams,
+                    }}
+                    cardDetails={cardDetails}
+                    onDelete={() => console.log("delete")}
+                    onEdit={() => console.log("edit")}
+                    onCreate={() => setModalVisible(true)}
+                />
+            </div>
+            <ModalCriarEditarPalavra
+                open={modalVisible}
+                onCancel={() => setModalVisible(false)}
             />
-        </div>
+        </>
     );
 };
 

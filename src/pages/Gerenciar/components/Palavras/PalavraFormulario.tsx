@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form, Input, Select, Button, Card, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useCreateWordMutation } from "../api/Mutations";
 import { fnErrorMessage } from "@/utils";
 import { useLoading } from "@/contexts/LoadingContext";
-import { WordFormData, WordFormProps } from "../AdicionarPalavra.types";
-import { useGetCategoriesListQuery } from "../api/Queries";
+import { useCreateWordMutation } from "../../api/Mutations";
+import { useGetCategoriesListQuery } from "../../api/Queries";
+import { WordFormProps, WordFormData } from "../../Gerenciar.types";
 
 const WordForm: React.FC<WordFormProps> = ({ onSuccess }) => {
     const { isLoading, toggleLoading } = useLoading();

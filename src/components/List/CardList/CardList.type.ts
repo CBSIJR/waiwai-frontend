@@ -21,4 +21,5 @@ export interface CardListProps<T> {
         searchValue?: string;
         setSearch: React.Dispatch<React.SetStateAction<QueryParam>>;
     };
+    onCreate?: () => void;
 }

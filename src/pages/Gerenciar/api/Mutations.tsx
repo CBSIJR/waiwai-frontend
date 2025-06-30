@@ -1,10 +1,7 @@
 import AxiosClient from "@/api/axios";
 import { useMutation } from "@tanstack/react-query";
-import {
-    AttachmentFormData,
-    MeaningFormData,
-    WordFormData,
-} from "../AdicionarPalavra.types";
+import { WordFormData, MeaningFormData, AttachmentFormData } from "../Gerenciar.types";
+
 
 export function useCreateWordMutation() {
     const axios = AxiosClient();
