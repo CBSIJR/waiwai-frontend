@@ -25,10 +25,7 @@ export function CardList<T>({
     error,
     refetch,
     onCreate,
-}: CardListProps<T> & {
-    onEdit?: (item: T) => void;
-    onDelete?: (item: T) => void;
-}) {
+}: CardListProps<T>) {
     if (isError) {
         return (
             <div className="flex flex-col items-center justify-center py-16 px-6 max-w-xl mx-auto text-center rounded-xl border border-red-100 bg-red-50 shadow-sm">

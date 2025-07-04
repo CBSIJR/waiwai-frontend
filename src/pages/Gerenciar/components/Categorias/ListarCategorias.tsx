@@ -2,7 +2,7 @@ import { CardList } from "@/components/List/CardList";
 import { CardDetails } from "@/components/List/CardList/CardList.type";
 import { useState } from "react";
 import { useGetCategoriesListQuery } from "../../api/Queries";
-import { Categorie } from "../../Gerenciar.types";
+import { Category } from "../../Gerenciar.types";
 
 const CategoryListManage: React.FC = () => {
     const [searchParams, setSearchParams] = useState<QueryParam>({
@@ -14,7 +14,7 @@ const CategoryListManage: React.FC = () => {
     const { data, refetch, isLoading, isError, error } =
         useGetCategoriesListQuery(searchParams);
 
-    const cardDetails = (item: Categorie): CardDetails<Categorie> => ({
+    const cardDetails = (item: Category): CardDetails<Category> => ({
         title: item.category,
         onDelete: () => alert("Funcionalidade não implementada"),
         onEdit: () => alert("Funcionalidade não implementada"),
@@ -40,8 +40,6 @@ const CategoryListManage: React.FC = () => {
                 error={error}
                 refetch={refetch}
                 cardDetails={cardDetails}
-                onDelete={() => alert("Funcionalidade não implementada")}
-                onEdit={() => console.log("edit")}
             />
         </>
     );
