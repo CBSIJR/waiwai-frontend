@@ -2,7 +2,7 @@ import AxiosClient from "@/api/axios";
 import { QUERY_KEYS } from "@/constraints";
 import { Reference } from "@/pages/PalavraDetalhe/PalavraDetalhe.types";
 import { useQuery } from "@tanstack/react-query";
-import { Categorie } from "../Gerenciar.types";
+import { Category } from "../Gerenciar.types";
 
 export const useGetCategoriesListQuery = (params?: QueryParam) => {
     const axios = AxiosClient();
@@ -15,7 +15,7 @@ export const useGetCategoriesListQuery = (params?: QueryParam) => {
         queryKey: [QUERY_KEYS.CATEGORIES, params],
         queryFn: async () =>
             await axios
-                .get<ApiResponsePage<Categorie>>(endpoint)
+                .get<ApiResponsePage<Category>>(endpoint)
                 .then((res) => res.data),
     });
 };
@@ -34,4 +34,3 @@ export const useGetReferencesQuery = (params?: QueryParam) => {
                 .then((res) => res.data.data),
     });
 };
-

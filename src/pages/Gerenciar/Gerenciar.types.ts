@@ -32,7 +32,7 @@ export interface AttachmentFormProps {
     wordId: number | null;
 }
 
-export interface Categorie {
+export interface Category {
     id: number;
     category: string;
 }
