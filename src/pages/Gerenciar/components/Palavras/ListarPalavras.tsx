@@ -64,8 +64,6 @@ const WordsListManage: React.FC = () => {
                         setSearch: setSearchParams,
                     }}
                     cardDetails={cardDetails}
-                    onDelete={() => console.log("delete")}
-                    onEdit={() => console.log("edit")}
                     onCreate={() => setModalVisible(true)}
                 />
             </div>
