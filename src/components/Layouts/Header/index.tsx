@@ -24,30 +24,6 @@ const HeaderLayout: React.FC = () => {
         setSticky(window.scrollY >= 80);
     };
 
-    const generateAntdMenuItems = (
-        data: typeof pathConstants,
-        userPermission: EnumPermission
-    ): MenuProps["items"] => {
-        return Object.entries(data)
-            .filter(
-                ([, value]) =>
-                    value.navbar &&
-                    hasPermission(
-                        userPermission,
-                        value.permission ?? EnumPermission.GUEST
-                    )
-            )
-            .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
-            .map(([, value]) => ({
-                key: value.path,
-                onClick: () => {
-                    navigate(value.path);
-                    setDrawerOpen(false);
-                },
-                label: value.text,
-            }));
-    };
-
     const screens = useBreakpoint();
     const isMobile = !screens.md;
 
@@ -59,12 +35,36 @@ const HeaderLayout: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        const generateAntdMenuItems = (
+            data: typeof pathConstants,
+            userPermission: EnumPermission
+        ): MenuProps["items"] => {
+            return Object.entries(data)
+                .filter(
+                    ([, value]) =>
+                        value.navbar &&
+                        hasPermission(
+                            userPermission,
+                            value.permission ?? EnumPermission.GUEST
+                        )
+                )
+                .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
+                .map(([, value]) => ({
+                    key: value.path,
+                    onClick: () => {
+                        navigate(value.path);
+                        setDrawerOpen(false);
+                    },
+                    label: value.text,
+                }));
+        };
+
         const menuItems = generateAntdMenuItems(
             pathConstants,
             userPermission ?? EnumPermission.GUEST
         );
         setMenuItems(menuItems);
-    }, [userPermission]);
+    }, [userPermission, navigate]);
 
     return (
         <Header
