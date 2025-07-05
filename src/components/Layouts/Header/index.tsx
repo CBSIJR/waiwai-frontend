@@ -4,15 +4,17 @@ import { Button, Drawer, Layout, Menu, MenuProps } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Grid} from 'antd';
-
+import { Grid } from "antd";
+import hasPermission from "@/utils/permissions";
+import { EnumPermission } from "@/types/index";
 
 const { useBreakpoint } = Grid;
 
 const { Header } = Layout;
 
 const HeaderLayout: React.FC = () => {
-    const { logout, isAuthenticated } = useAuth();
+    const { logout, isAuthenticated, userPermission } = useAuth();
+    const [menuItems, setMenuItems] = useState<MenuProps["items"]>([]);
     const navigate = useNavigate();
 
     const [sticky, setSticky] = useState(false);
@@ -23,10 +25,18 @@ const HeaderLayout: React.FC = () => {
     };
 
     const generateAntdMenuItems = (
-        data: typeof pathConstants
+        data: typeof pathConstants,
+        userPermission: EnumPermission
     ): MenuProps["items"] => {
-        const items: MenuProps["items"] = Object.entries(data)
-            .filter(([, value]) => value.navbar)
+        return Object.entries(data)
+            .filter(
+                ([, value]) =>
+                    value.navbar &&
+                    hasPermission(
+                        userPermission,
+                        value.permission ?? EnumPermission.GUEST
+                    )
+            )
             .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
             .map(([, value]) => ({
                 key: value.path,
@@ -36,22 +46,25 @@ const HeaderLayout: React.FC = () => {
                 },
                 label: value.text,
             }));
-
-        return items;
     };
 
-    const menuItems = generateAntdMenuItems(pathConstants);
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
 
-
-  const screens = useBreakpoint();
-  const isMobile = !screens.md
-
-  useEffect(() => {
+    useEffect(() => {
         window.addEventListener("scroll", handleStickyNavbar);
         return () => {
             window.removeEventListener("scroll", handleStickyNavbar);
         };
     }, []);
+
+    useEffect(() => {
+        const menuItems = generateAntdMenuItems(
+            pathConstants,
+            userPermission ?? EnumPermission.GUEST
+        );
+        setMenuItems(menuItems);
+    }, [userPermission]);
 
     return (
         <Header
@@ -73,7 +86,7 @@ const HeaderLayout: React.FC = () => {
                     />
                 </Link>
 
-                {!useIsMobile() && (
+                {!isMobile && (
                     <div className="w-64 items-center">
                         <Menu
                             mode="horizontal"

@@ -1,15 +1,17 @@
+import { EnumPermission } from "../types/index";
+
 type RouteType = {
     path: string;
     text: string;
     newTab: boolean;
     navbar: boolean;
+    permission?: EnumPermission;
     priority?: number;
 };
 
 type RoutesType = {
     [key: string]: RouteType;
 };
-
 
 export const pathConstants: RoutesType = {
     inicio: {
@@ -31,6 +33,7 @@ export const pathConstants: RoutesType = {
         text: "Gerenciar",
         newTab: false,
         navbar: true,
+        permission: EnumPermission.USER,
         priority: 3,
     },
     entrar: {
