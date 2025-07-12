@@ -1,3 +1,8 @@
+export interface ModalCriarEditarPalavraProps {
+    open: boolean;
+    onCancel: () => void;
+}
+
 export interface WordFormData {
     word: string;
     phonemic: string | null;
@@ -27,7 +32,7 @@ export interface AttachmentFormProps {
     wordId: number | null;
 }
 
-export interface Categorie {
+export interface Category {
     id: number;
     category: string;
 }
