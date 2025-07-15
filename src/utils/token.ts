@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { EnumPermission } from "../types/index";
 
 export interface JWT {
     iss: string;
@@ -12,7 +13,7 @@ export interface JWT {
 export interface Data {
     name: string;
     email: string;
-    permissions: "GUEST" | "USER" | "ADMIN";
+    permission: EnumPermission;
 }
 
 class TokenDecode {
@@ -24,6 +25,7 @@ class TokenDecode {
         }
         this.decodedToken = jwtDecode(token);
     }
+
     private get getExp(): number {
         return this.decodedToken.exp;
     }
@@ -36,6 +38,10 @@ class TokenDecode {
         const event: Date = new Date();
         event.setMinutes(event.getMinutes() + 20);
         return event > this.expiresAt;
+    }
+
+    get getData(): Data {
+        return this.decodedToken.data;
     }
 
     get isAuthenticated(): boolean {
