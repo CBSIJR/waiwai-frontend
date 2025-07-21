@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSigninMutation } from "./api/Mutation";
 
-const EntrarPage = () => {
+const EntrarPage: React.FC  = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",

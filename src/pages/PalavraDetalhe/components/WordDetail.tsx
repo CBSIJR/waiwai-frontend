@@ -156,7 +156,7 @@ const WordDetail: React.FC = () => {
                         <div className="space-y-6">
                             {word.meanings.map((meaning) => (
                                 <>
-                                    <div className="grid md:grid-cols-2 gap-8">
+                                    <div key={"mng_"+meaning.id} className="grid md:grid-cols-2 gap-8">
                                         <div className="space-y-4">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-3 h-3 bg-primary rounded-full"></div>
@@ -192,7 +192,7 @@ const WordDetail: React.FC = () => {
 
                                     {meaning.reference && (
                                         <>
-                                            <div className="bg-gray-50 rounded-xl p-4">
+                                            <div key={"ref_"+meaning.id} className="bg-gray-50 rounded-xl p-4">
                                                 <div className="flex items-start gap-3">
                                                     <BookOutlined className="text-primary mt-1" />
                                                     <div className="flex-1">
@@ -232,7 +232,7 @@ const WordDetail: React.FC = () => {
                                             </div>
                                         </>
                                     )}
-                                    <Divider className="my-6" />
+                                    <Divider key={"dvr_"+meaning.id} className="my-6" />
                                 </>
                             ))}
                         </div>

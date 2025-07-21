@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSignupMutation } from "./api/Mutation";
 
-const Registrar = () => {
+const Registrar: React.FC = () => {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
