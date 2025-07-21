@@ -54,6 +54,12 @@ export const pathConstants: RoutesType = {
         newTab: false,
         navbar: false,
     },
+    error404: {
+        path: "/*",
+        text: "Página não encontrada",
+        newTab: false,
+        navbar: false,
+    }
 };
 
 export const QUERY_KEYS = {

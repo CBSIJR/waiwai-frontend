@@ -8,6 +8,7 @@ import {
     PalavraDetalhe,
     Registrar,
     PoliticaPrivacidade,
+    NotFound
 } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -44,6 +45,10 @@ export default function Routes() {
                     path: pathConstants.politicaprivacidade.path,
                     element: <PoliticaPrivacidade />, 
                 },
+                {
+                    path: pathConstants.error404.path,
+                    element: <NotFound/>,
+                }
            
             ],
         },
