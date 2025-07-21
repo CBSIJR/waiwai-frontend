@@ -1,4 +1,3 @@
-import type React from "react"
 import { Typography } from "antd"
 import { SearchOutlined } from "@ant-design/icons"
 
@@ -29,7 +28,8 @@ const NotFoundPage: React.FC = () => {
 
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default NotFoundPage
+
+export default NotFoundPage;

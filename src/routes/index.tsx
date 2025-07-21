@@ -8,7 +8,7 @@ import {
     PalavraDetalhe,
     Registrar,
     PoliticaPrivacidade,
-    NotFoundPage
+    NotFound
 } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -47,7 +47,7 @@ export default function Routes() {
                 },
                 {
                     path: pathConstants.error404.path,
-                    element: <NotFoundPage/>,
+                    element: <NotFound/>,
                 }
            
             ],
