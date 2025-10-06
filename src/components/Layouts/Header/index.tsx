@@ -4,11 +4,17 @@ import { Button, Drawer, Layout, Menu, MenuProps } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Grid } from "antd";
+import hasPermission from "@/utils/permissions";
+import { EnumPermission } from "@/types/index";
+
+const { useBreakpoint } = Grid;
 
 const { Header } = Layout;
 
 const HeaderLayout: React.FC = () => {
-    const { logout, isAuthenticated } = useAuth();
+    const { logout, isAuthenticated, userPermission } = useAuth();
+    const [menuItems, setMenuItems] = useState<MenuProps["items"]>([]);
     const navigate = useNavigate();
 
     const [sticky, setSticky] = useState(false);
@@ -18,41 +24,8 @@ const HeaderLayout: React.FC = () => {
         setSticky(window.scrollY >= 80);
     };
 
-    const generateAntdMenuItems = (
-        data: typeof pathConstants
-    ): MenuProps["items"] => {
-        const items: MenuProps["items"] = Object.entries(data)
-            .filter(([, value]) => value.navbar)
-            .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
-            .map(([, value]) => ({
-                key: value.path,
-                onClick: () => {
-                    navigate(value.path);
-                    setDrawerOpen(false);
-                },
-                label: value.text,
-            }));
-
-        return items;
-    };
-
-    const menuItems = generateAntdMenuItems(pathConstants);
-
-    const useIsMobile = () => {
-        const [isMobile, setIsMobile] = useState(false);
-
-        useEffect(() => {
-            const handleResize = () => {
-                setIsMobile(window.innerWidth < 768);
-            };
-
-            handleResize();
-            window.addEventListener("resize", handleResize);
-            return () => window.removeEventListener("resize", handleResize);
-        }, []);
-
-        return isMobile;
-    };
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
 
     useEffect(() => {
         window.addEventListener("scroll", handleStickyNavbar);
@@ -60,6 +33,38 @@ const HeaderLayout: React.FC = () => {
             window.removeEventListener("scroll", handleStickyNavbar);
         };
     }, []);
+
+    useEffect(() => {
+        const generateAntdMenuItems = (
+            data: typeof pathConstants,
+            userPermission: EnumPermission
+        ): MenuProps["items"] => {
+            return Object.entries(data)
+                .filter(
+                    ([, value]) =>
+                        value.navbar &&
+                        hasPermission(
+                            userPermission,
+                            value.permission ?? EnumPermission.GUEST
+                        )
+                )
+                .sort(([, a], [, b]) => (a.priority ?? 0) - (b.priority ?? 0))
+                .map(([, value]) => ({
+                    key: value.path,
+                    onClick: () => {
+                        navigate(value.path);
+                        setDrawerOpen(false);
+                    },
+                    label: value.text,
+                }));
+        };
+
+        const menuItems = generateAntdMenuItems(
+            pathConstants,
+            userPermission ?? EnumPermission.GUEST
+        );
+        setMenuItems(menuItems);
+    }, [userPermission, navigate]);
 
     return (
         <Header
@@ -81,8 +86,8 @@ const HeaderLayout: React.FC = () => {
                     />
                 </Link>
 
-                {!useIsMobile() && (
-                    <div className="items-center gap-4">
+                {!isMobile && (
+                    <div className="w-64 items-center">
                         <Menu
                             mode="horizontal"
                             className="bg-transparent"

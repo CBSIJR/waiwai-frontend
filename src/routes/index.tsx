@@ -1,12 +1,14 @@
 import { MainLayout } from "@/components/Layouts";
 import { pathConstants } from "@/constraints";
 import {
-    AdicionarPalavra,
     Dicionario,
     Entrar,
+    Gerenciar,
     Inicio,
     PalavraDetalhe,
     Registrar,
+    PoliticaPrivacidade,
+    NotFound
 } from "@/pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -24,12 +26,12 @@ export default function Routes() {
                     element: <Dicionario />,
                 },
                 {
-                    path: `${pathConstants.dicionario.path}/:id`,
-                    element: <PalavraDetalhe />,
+                    path: pathConstants.gerenciar.path,
+                    element: <Gerenciar />,
                 },
                 {
-                    path: `${pathConstants.dicionario.path}/adicionar-palavra`,
-                    element: <AdicionarPalavra />,
+                    path: `${pathConstants.dicionario.path}/:id`,
+                    element: <PalavraDetalhe />,
                 },
                 {
                     path: pathConstants.entrar.path,
@@ -39,6 +41,15 @@ export default function Routes() {
                     path: pathConstants.registrar.path,
                     element: <Registrar />,
                 },
+                 {
+                    path: pathConstants.politicaprivacidade.path,
+                    element: <PoliticaPrivacidade />, 
+                },
+                {
+                    path: pathConstants.error404.path,
+                    element: <NotFound/>,
+                }
+           
             ],
         },
     ];

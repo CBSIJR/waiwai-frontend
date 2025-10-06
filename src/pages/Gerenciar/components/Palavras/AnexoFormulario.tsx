@@ -4,9 +4,9 @@ import { UploadOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { fnErrorMessage } from "@/utils";
-import { useCreateAttachmentMutation } from "../api/Mutations";
 import { useLoading } from "@/contexts/LoadingContext";
-import { AttachmentFormProps } from "../AdicionarPalavra.types";
+import { useCreateAttachmentMutation } from "../../api/Mutations";
+import { AttachmentFormProps } from "../../Gerenciar.types";
 
 const AttachmentForm: React.FC<AttachmentFormProps> = ({ wordId }) => {
     const [fileList, setFileList] = useState<UploadFile[]>([]);
